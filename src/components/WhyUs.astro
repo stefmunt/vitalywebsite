@@ -1,0 +1,47 @@
+---
+const reasons = [
+  { stat: '100%', label: 'Discreet & Professional' },
+  { stat: '24/7', label: 'Available Around the Clock' },
+  { stat: '5★', label: 'Client Satisfaction' },
+  { stat: 'Dublin', label: 'Local Expertise' },
+];
+---
+
+<section id="about" class="py-24 px-4 bg-charcoal-900">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Why Choose Us</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">
+          Dublin's Premier<br />Executive Chauffeur
+        </h2>
+        <p class="text-white/60 leading-relaxed mb-6">
+          Vitaly Executive Chauffeur is built on a simple promise: every journey should be
+          as comfortable and seamless as possible. We combine local Dublin knowledge with
+          premium vehicles and impeccably presented, professionally trained chauffeurs.
+        </p>
+        <p class="text-white/60 leading-relaxed mb-8">
+          Whether you need a one-off airport transfer or a dedicated driver for ongoing
+          corporate travel, we deliver a consistent, first-class experience every time.
+        </p>
+        <a
+          href="#contact"
+          class="inline-flex px-8 py-4 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold tracking-wide rounded transition-colors duration-200"
+        >
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 gap-6">
+        {reasons.map(({ stat, label }) => (
+          <div class="p-8 border border-white/10 rounded-lg text-center">
+            <div class="font-serif text-4xl font-bold text-gold-400 mb-2">{stat}</div>
+            <div class="text-sm text-white/60 tracking-wide">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+---
+const services = [
+  {
+    icon: '✈',
+    title: 'Airport Transfers',
+    description:
+      'Punctual, stress-free transfers to and from Dublin Airport. Flight tracking included — we adjust for delays.',
+  },
+  {
+    icon: '🏢',
+    title: 'Corporate Travel',
+    description:
+      'Reliable executive transport for business meetings, roadshows, and client entertainment across Dublin and beyond.',
+  },
+  {
+    icon: '⭐',
+    title: 'VIP & Luxury',
+    description:
+      'Red-carpet service for special occasions, events, and high-profile clients who expect nothing but the best.',
+  },
+  {
+    icon: '🚗',
+    title: 'Private Driver',
+    description:
+      'Hire a dedicated professional chauffeur for the day, evening, or multi-day engagements tailored to your schedule.',
+  },
+];
+---
+
+<section id="services" class="py-24 px-4 bg-charcoal-800">
+  <div class="max-w-6xl mx-auto">
+    <!-- Heading -->
+    <div class="text-center mb-16">
+      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">What We Offer</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold">Our Services</h2>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map(({ icon, title, description }) => (
+        <div class="group p-8 border border-white/10 rounded-lg hover:border-gold-500/50 transition-colors duration-300">
+          <div class="text-4xl mb-5">{icon}</div>
+          <h3 class="font-serif text-xl font-semibold mb-3 group-hover:text-gold-400 transition-colors duration-200">
+            {title}
+          </h3>
+          <p class="text-white/60 text-sm leading-relaxed">{description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

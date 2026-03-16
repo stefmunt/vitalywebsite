@@ -1,0 +1,77 @@
+---
+const navLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#fleet', label: 'Fleet' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-charcoal-900/95 backdrop-blur-sm border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="/" class="flex flex-col leading-tight">
+        <span class="font-serif text-lg font-semibold tracking-wide text-white">Vitaly</span>
+        <span class="text-xs tracking-[0.2em] text-gold-400 uppercase">Executive Chauffeur</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class="text-sm tracking-wide text-white/70 hover:text-gold-400 transition-colors duration-200"
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA -->
+      <a
+        href="tel:+353000000000"
+        class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-charcoal-900 text-sm font-semibold tracking-wide rounded transition-colors duration-200"
+      >
+        Book Now
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-white/70 hover:text-white"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-charcoal-900">
+    <nav class="flex flex-col px-4 py-4 gap-4">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="text-sm tracking-wide text-white/70 hover:text-gold-400 transition-colors duration-200"
+        >
+          {label}
+        </a>
+      ))}
+      <a
+        href="tel:+353000000000"
+        class="inline-flex justify-center px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-charcoal-900 text-sm font-semibold tracking-wide rounded transition-colors duration-200"
+      >
+        Book Now
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+</script>
