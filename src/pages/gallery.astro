@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
+---
+
+<BaseLayout
+  title="Fleet Gallery"
+  description="Browse the Vitaly Executive Chauffeur fleet — luxury vehicles for airport transfers, corporate travel, and VIP transport in Dublin."
+>
+  <section class="pt-40 pb-20 px-4 bg-charcoal-900 text-center">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Our Fleet</p>
+      <h1 class="font-serif text-4xl md:text-5xl font-bold mb-6">Gallery</h1>
+      <p class="text-white/60 text-lg leading-relaxed">
+        Travel in style. Our fleet of premium vehicles is maintained to the highest standard.
+      </p>
+    </div>
+  </section>
+
+  <Gallery />
+</BaseLayout>

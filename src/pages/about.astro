@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Testimonials from '../components/Testimonials.astro';
+---
+
+<BaseLayout
+  title="About Us"
+  description="Learn about Vitaly Executive Chauffeur — Dublin's premier luxury chauffeur service. Professional, discreet, and dedicated to your comfort."
+>
+  <!-- Page Hero -->
+  <section class="pt-40 pb-20 px-4 bg-charcoal-900 text-center">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Our Story</p>
+      <h1 class="font-serif text-4xl md:text-5xl font-bold mb-6">About Vitaly Executive Chauffeur</h1>
+      <p class="text-white/60 text-lg leading-relaxed">
+        Founded on a commitment to excellence, Vitaly Executive Chauffeur has become Dublin's
+        trusted name in premium private transport.
+      </p>
+    </div>
+  </section>
+
+  <WhyUs />
+  <Testimonials />
+</BaseLayout>

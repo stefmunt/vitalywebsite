@@ -1,0 +1,28 @@
+---
+const images = [
+  { src: '/images/fleet-1.jpg', alt: 'Mercedes S-Class exterior' },
+  { src: '/images/fleet-2.jpg', alt: 'Mercedes S-Class interior' },
+  { src: '/images/fleet-3.jpg', alt: 'Executive SUV exterior' },
+  { src: '/images/fleet-4.jpg', alt: 'Executive SUV interior' },
+  { src: '/images/fleet-5.jpg', alt: 'Airport transfer Dublin' },
+  { src: '/images/fleet-6.jpg', alt: 'Corporate chauffeur Dublin' },
+];
+---
+
+<section id="gallery" class="py-24 px-4 bg-charcoal-900">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Our Fleet</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold">Gallery</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {images.map(({ src, alt }) => (
+        <div class="aspect-[4/3] bg-charcoal-800 rounded-lg overflow-hidden border border-white/10 flex items-center justify-center">
+          <!-- Replace with: <img src={src} alt={alt} class="w-full h-full object-cover" /> -->
+          <p class="text-white/20 text-sm text-center px-4">{alt}<br /><span class="text-xs">(image placeholder)</span></p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
