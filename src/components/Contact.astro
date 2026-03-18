@@ -71,9 +71,7 @@
         method="POST"
         class="space-y-5"
       >
-        <input type="hidden" name="_redirect" value="false" />
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label for="name" class="block text-xs text-white/40 uppercase tracking-widest mb-2">Full Name</label>
             <input
@@ -159,10 +157,11 @@
     btn.textContent = 'Sending...';
 
     try {
+      const data = Object.fromEntries(new FormData(form));
       await fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       });
       form.classList.add('hidden');
       success?.classList.remove('hidden');
