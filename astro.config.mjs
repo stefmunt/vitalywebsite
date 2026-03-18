@@ -5,7 +5,7 @@ import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://vitalychauffeur.ie',
+  site: 'https://vitalychauffeur.com',
 
   vite: {
     plugins: [tailwindcss()],

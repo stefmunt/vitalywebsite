@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /dist/
 
-Sitemap: https://vitalychauffeur.ie/sitemap.xml
+Sitemap: https://vitalychauffeur.com/sitemap.xml
