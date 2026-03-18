@@ -9,5 +9,9 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"routes": [
+		{ "pattern": "vitalychauffeur.com/*", "zone_name": "vitalychauffeur.com" },
+		{ "pattern": "www.vitalychauffeur.com/*", "zone_name": "vitalychauffeur.com" }
+	]
 }
