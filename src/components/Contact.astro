@@ -53,13 +53,25 @@
         </div>
       </div>
 
+      <!-- Success message (hidden until form submitted) -->
+      <div id="form-success" class="hidden flex flex-col items-center justify-center text-center h-full gap-6 py-16">
+        <div class="w-16 h-16 rounded-full bg-gold-500/10 flex items-center justify-center">
+          <svg class="w-8 h-8 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        <h3 class="font-serif text-2xl font-bold">Thank You</h3>
+        <p class="text-white/60 leading-relaxed">Your enquiry has been received. We'll be in touch within the hour to confirm your booking.</p>
+      </div>
+
       <!-- Form -->
       <form
+        id="contact-form"
         action="https://submit-form.com/pl5RDzLOQ"
         method="POST"
         class="space-y-5"
       >
-        <input type="hidden" name="_redirect" value="https://vitalychauffeur.ie/thank-you" />
+        <input type="hidden" name="_redirect" value="false" />
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
@@ -126,6 +138,7 @@
 
         <button
           type="submit"
+          id="submit-btn"
           class="w-full py-4 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold tracking-wide rounded transition-colors duration-200"
         >
           Send Enquiry
@@ -134,3 +147,29 @@
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const success = document.getElementById('form-success');
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      form.classList.add('hidden');
+      success?.classList.remove('hidden');
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Send Enquiry';
+      alert('Something went wrong. Please try again or call us directly.');
+    }
+  });
+</script>
