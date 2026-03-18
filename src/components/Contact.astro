@@ -60,6 +60,7 @@
         class="space-y-5"
       >
         <input type="hidden" name="_redirect" value="https://vitalychauffeur.ie/thank-you" />
+        <input type="hidden" name="_botpoison" value="" id="botpoison-field" />
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
@@ -131,6 +132,15 @@
           Send Enquiry
         </button>
       </form>
+
+      <script>
+        window._botpoisonKey = 'pk_32ba5972-8597-4d3b-8fb0-9767c10a8184';
+        document.addEventListener('DOMContentLoaded', () => {
+          if (window.botpoison) {
+            window.botpoison.init({ publicKey: window._botpoisonKey });
+          }
+        });
+      </script>
     </div>
   </div>
 </section>
