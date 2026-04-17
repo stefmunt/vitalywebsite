@@ -1,43 +1,63 @@
 ---
 const testimonials = [
   {
-    name: 'James O\'Brien',
+    quote: 'Vitaly has been our first call for corporate transfers for over two years. Always punctual, always discreet. Never once let us down.',
+    name: "James O'Brien",
     role: 'Managing Director',
-    quote: 'Vitaly has been our go-to chauffeur service for corporate travel for over two years. Always punctual, discreet, and professional.',
   },
   {
+    quote: 'Exceptional from first contact to drop-off. The standard of vehicle and driver is genuinely first-class — the kind of service you stop noticing because it simply works.',
     name: 'Sarah Connolly',
     role: 'Private Client',
-    quote: 'Exceptional service from booking to drop-off. The vehicle was immaculate and the driver was incredibly courteous. Highly recommended.',
   },
   {
+    quote: 'We use Vitaly for all our VIP guest transfers. The reliability and discretion are second to none in Dublin.',
     name: 'Michael Flynn',
     role: 'Events Manager',
-    quote: 'We use Vitaly for all our VIP guest transfers. They never let us down — the reliability and quality is second to none in Dublin.',
   },
 ];
 ---
 
-<section id="testimonials" class="py-24 px-4 bg-charcoal-800">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-16">
-      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Client Reviews</p>
-      <h2 class="font-serif text-4xl md:text-5xl font-bold">What Our Clients Say</h2>
+<section id="testimonials" class="py-32 px-6 lg:px-16 bg-ink-950">
+  <div class="max-w-5xl">
+
+    <div class="flex items-center gap-6 mb-24">
+      <span class="text-[10px] tracking-[0.42em] uppercase text-stone-600 shrink-0">Clients</span>
+      <div class="h-px flex-1 bg-ink-700"></div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {testimonials.map(({ name, role, quote }) => (
-        <div class="p-8 border border-white/10 rounded-lg flex flex-col gap-6">
-          <div class="flex gap-1 text-gold-400">
-            {Array(5).fill(null).map(() => <span>★</span>)}
-          </div>
-          <p class="text-white/70 leading-relaxed italic flex-1">"{quote}"</p>
-          <div>
-            <p class="font-semibold text-white">{name}</p>
-            <p class="text-sm text-white/40">{role}</p>
+    <!-- Featured pull-quote -->
+    <div class="mb-24">
+      <p
+        class="font-serif font-light italic text-ivory-100 leading-[1.22] mb-10"
+        style="font-size: clamp(1.75rem, 3.8vw, 3rem);"
+      >
+        "{testimonials[0].quote}"
+      </p>
+      <div class="flex items-center gap-4">
+        <div class="h-px w-8 bg-brass-500 shrink-0"></div>
+        <p class="text-[10px] tracking-[0.28em] uppercase text-stone-500">
+          {testimonials[0].name}&nbsp;&middot;&nbsp;{testimonials[0].role}
+        </p>
+      </div>
+    </div>
+
+    <!-- Secondary -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-14 border-t border-ink-800 pt-16">
+      {testimonials.slice(1).map(({ quote, name, role }) => (
+        <div>
+          <p class="font-serif font-light italic text-stone-300 text-base leading-relaxed mb-6">
+            "{quote}"
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="h-px w-4 bg-ink-600 shrink-0"></div>
+            <p class="text-[10px] tracking-[0.25em] uppercase text-stone-600">
+              {name}&nbsp;&middot;&nbsp;{role}
+            </p>
           </div>
         </div>
       ))}
     </div>
+
   </div>
 </section>

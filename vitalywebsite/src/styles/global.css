@@ -2,12 +2,44 @@
 @source "../";
 
 @theme {
-  --color-gold-400: #d4af5a;
-  --color-gold-500: #c9a84c;
-  --color-gold-600: #b8972f;
-  --color-charcoal-800: #1a1a1a;
-  --color-charcoal-900: #0f0f0f;
+  --color-ink-950: #0c0b09;
+  --color-ink-900: #121009;
+  --color-ink-800: #1c1914;
+  --color-ink-700: #2a2520;
+  --color-ink-600: #3d3730;
+  --color-ivory-50: #faf7f1;
+  --color-ivory-100: #f4ede0;
+  --color-ivory-200: #e8dbc8;
+  --color-ivory-400: #c9b99a;
+  --color-brass-400: #c9a96e;
+  --color-brass-500: #b89a5e;
+  --color-brass-600: #a68a4e;
+  --color-stone-300: #bdb5ab;
+  --color-stone-400: #a89e92;
+  --color-stone-500: #857d72;
+  --color-stone-600: #635c53;
+  --color-stone-700: #484038;
 
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
+}
+
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
 }

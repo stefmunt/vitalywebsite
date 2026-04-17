@@ -4,24 +4,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Thank You"
-  description="Your enquiry has been received. Vitaly Executive Chauffeur will be in touch shortly."
+  description="Your request has been received. Vitaly Executive Chauffeur will be in touch shortly."
 >
-  <section class="min-h-screen flex items-center justify-center px-4 bg-charcoal-900 text-center">
-    <div class="max-w-lg mx-auto">
-      <div class="w-16 h-16 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-8">
-        <svg class="w-8 h-8 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.5 12.75l6 6 9-13.5" />
-        </svg>
-      </div>
-      <h1 class="font-serif text-4xl font-bold mb-4">Thank You</h1>
-      <p class="text-white/60 text-lg leading-relaxed mb-10">
-        Your enquiry has been received. We'll be in touch within the hour to confirm your booking.
+  <section class="min-h-screen flex flex-col items-start justify-center px-6 lg:px-16 bg-ink-900">
+    <div class="max-w-xl">
+      <p class="text-[10px] tracking-[0.42em] uppercase text-brass-500 mb-10">Received</p>
+      <h1
+        class="font-serif font-light italic text-ivory-100 leading-[1.04] mb-8"
+        style="font-size: clamp(2.5rem, 5vw, 4rem);"
+      >
+        Thank you.<br />We'll be in touch.
+      </h1>
+      <p class="text-stone-400 text-sm leading-relaxed mb-16 max-w-sm">
+        Your request has been passed to Vitaly personally. Expect a reply within the hour — often sooner.
       </p>
       <a
         href="/"
-        class="inline-flex px-8 py-4 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold tracking-wide rounded transition-colors duration-200"
+        class="inline-flex items-center gap-3 text-[11px] tracking-[0.28em] uppercase text-ivory-200 link-underline"
       >
-        Back to Home
+        Return home
+        <span class="text-brass-500">&rarr;</span>
       </a>
     </div>
   </section>

@@ -1,47 +1,56 @@
 ---
-const reasons = [
-  { stat: '100%', label: 'Discreet & Professional' },
-  { stat: '24/7', label: 'Available Around the Clock' },
-  { stat: '5★', label: 'Client Satisfaction' },
-  { stat: 'Dublin', label: 'Local Expertise' },
-];
+interface Props {
+  testimonial?: boolean;
+}
+const { testimonial = true } = Astro.props;
 ---
 
-<section id="about" class="py-24 px-4 bg-charcoal-900">
-  <div class="max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <!-- Text -->
+<section id="about" class="py-32 px-6 lg:px-16 bg-ink-900">
+  <div class="max-w-5xl">
+
+    <div class="flex items-center gap-6 mb-24">
+      <span class="text-[10px] tracking-[0.42em] uppercase text-stone-600 shrink-0">Philosophy</span>
+      <div class="h-px flex-1 bg-ink-700"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+
+      <!-- Statement -->
       <div>
-        <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Why Choose Us</p>
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">
-          Dublin's Premier<br />Executive Chauffeur
-        </h2>
-        <p class="text-white/60 leading-relaxed mb-6">
-          Vitaly Executive Chauffeur is built on a simple promise: every journey should be
-          as comfortable and seamless as possible. We combine local Dublin knowledge with
-          premium vehicles and impeccably presented, professionally trained chauffeurs.
-        </p>
-        <p class="text-white/60 leading-relaxed mb-8">
-          Whether you need a one-off airport transfer or a dedicated driver for ongoing
-          corporate travel, we deliver a consistent, first-class experience every time.
+        <blockquote
+          class="font-serif font-light italic text-ivory-100 leading-[1.25] mb-12"
+          style="font-size: clamp(1.6rem, 3.2vw, 2.5rem);"
+        >
+          "The standard we work to is the one most clients notice only in its absence."
+        </blockquote>
+        <p class="text-stone-400 text-sm leading-relaxed mb-10 max-w-sm">
+          Vitaly Executive Chauffeur was built on a single conviction: that genuine luxury in transport means the complete absence of friction. No waiting, no uncertainty, no compromised vehicles. A driver who knows Dublin, a car that reflects your standards, and a service that respects your time.
         </p>
         <a
-          href="#contact"
-          class="inline-flex px-8 py-4 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold tracking-wide rounded transition-colors duration-200"
+          href="/about"
+          class="inline-flex items-center gap-3 text-[11px] tracking-[0.25em] uppercase text-ivory-200 link-underline"
         >
-          Get in Touch
+          About us
+          <span class="text-brass-500">&rarr;</span>
         </a>
       </div>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-2 gap-6">
-        {reasons.map(({ stat, label }) => (
-          <div class="p-8 border border-white/10 rounded-lg text-center">
-            <div class="font-serif text-4xl font-bold text-gold-400 mb-2">{stat}</div>
-            <div class="text-sm text-white/60 tracking-wide">{label}</div>
+      <!-- Testimonial aside -->
+      {testimonial && (
+        <div class="border-l border-ink-700 pl-10 lg:pl-14 flex flex-col justify-center">
+          <p class="font-serif font-light italic text-stone-300 text-lg leading-relaxed mb-8">
+            "Vitaly has been our first call for corporate transfers for over two years. Always there, always discreet."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="h-px w-6 bg-brass-500 shrink-0"></div>
+            <div>
+              <p class="text-[10px] tracking-[0.28em] uppercase text-stone-600">James O'Brien</p>
+              <p class="text-[10px] tracking-[0.28em] uppercase text-stone-700 mt-0.5">Managing Director</p>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
     </div>
   </div>
 </section>
