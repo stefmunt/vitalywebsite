@@ -1,46 +1,20 @@
 ---
 const year = new Date().getFullYear();
-const navLinks = [
-  { href: '/services', label: 'Services' },
-  { href: '/gallery', label: 'Fleet' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Reserve' },
-  { href: '/privacy', label: 'Privacy' },
-];
 ---
 
-<footer class="bg-ink-950 border-t border-ink-800 py-16 px-6 lg:px-16">
-  <div class="max-w-5xl mx-auto">
-
-    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
-
-      <div>
-        <a href="/" class="font-serif font-light italic text-ivory-100 text-xl lowercase tracking-wide block mb-2">
-          vitaly
-        </a>
-        <p class="text-[9px] tracking-[0.32em] uppercase text-stone-700">
-          Executive Chauffeur &middot; Dublin
-        </p>
-      </div>
-
-      <nav class="flex flex-wrap gap-x-8 gap-y-4">
-        {navLinks.map(({ href, label }) => (
-          <a
-            href={href}
-            class="text-[10px] tracking-[0.22em] uppercase text-stone-600 hover:text-ivory-200 transition-colors duration-300 link-underline"
-          >
-            {label}
-          </a>
-        ))}
-      </nav>
-
+<footer class="bg-charcoal-900 border-t border-white/10 py-10 px-4">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-white/40">
+    <div class="flex flex-col items-center md:items-start gap-1">
+      <span class="font-serif text-white text-base">Vitaly Executive Chauffeur</span>
+      <span>Dublin, Ireland</span>
     </div>
 
-    <div class="mt-14 pt-8 border-t border-ink-800">
-      <p class="text-[9px] text-stone-700 tracking-[0.18em]">
-        &copy; {year} Vitaly Executive Chauffeur. All rights reserved.
-      </p>
-    </div>
+    <nav class="flex gap-6">
+      <a href="#services" class="hover:text-gold-400 transition-colors">Services</a>
+      <a href="#about" class="hover:text-gold-400 transition-colors">About</a>
+      <a href="#contact" class="hover:text-gold-400 transition-colors">Contact</a>
+    </nav>
 
+    <p>© {year} Vitaly Executive Chauffeur. All rights reserved.</p>
   </div>
 </footer>

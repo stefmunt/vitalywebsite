@@ -7,151 +7,71 @@ const navLinks = [
 ];
 ---
 
-<header
-  id="site-header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
->
-  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+<header class="fixed top-0 left-0 right-0 z-50 bg-charcoal-900/95 backdrop-blur-sm border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
-
-      <a href="/" class="flex flex-col leading-none">
-        <span class="font-serif text-lg font-light italic tracking-wide text-ivory-100 lowercase">vitaly</span>
-        <span class="text-[9px] tracking-[0.32em] text-stone-500 uppercase mt-0.5">Executive Chauffeur</span>
+      <!-- Logo -->
+      <a href="/" class="flex flex-col leading-tight">
+        <span class="font-serif text-lg font-semibold tracking-wide text-white">Vitaly</span>
+        <span class="text-xs tracking-[0.2em] text-gold-400 uppercase">Executive Chauffeur</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-10">
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
         {navLinks.map(({ href, label }) => (
           <a
             href={href}
-            class="text-[11px] tracking-[0.22em] uppercase text-stone-400 hover:text-ivory-100 transition-colors duration-300 link-underline"
+            class="text-sm tracking-wide text-white/70 hover:text-gold-400 transition-colors duration-200"
           >
             {label}
           </a>
         ))}
       </nav>
 
+      <!-- CTA -->
       <a
         href="tel:+353000000000"
-        class="hidden md:block text-[11px] tracking-[0.15em] text-stone-500 hover:text-ivory-100 transition-colors duration-300 link-underline"
+        class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-charcoal-900 text-sm font-semibold tracking-wide rounded transition-colors duration-200"
       >
-        +353 00 000 0000
+        Book Now
       </a>
 
+      <!-- Mobile menu button -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden p-2 text-stone-500 hover:text-ivory-100 transition-colors duration-300"
-        aria-label="Open menu"
+        class="md:hidden p-2 text-white/70 hover:text-white"
+        aria-label="Toggle menu"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16" />
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
     </div>
   </div>
+
+  <!-- Mobile nav -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-charcoal-900">
+    <nav class="flex flex-col px-4 py-4 gap-4">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="text-sm tracking-wide text-white/70 hover:text-gold-400 transition-colors duration-200"
+        >
+          {label}
+        </a>
+      ))}
+      <a
+        href="tel:+353000000000"
+        class="inline-flex justify-center px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-charcoal-900 text-sm font-semibold tracking-wide rounded transition-colors duration-200"
+      >
+        Book Now
+      </a>
+    </nav>
+  </div>
 </header>
 
-<div id="mobile-menu" aria-hidden="true">
-  <button id="mobile-menu-close" aria-label="Close menu">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  </button>
-
-  <a href="/" class="font-serif text-2xl font-light italic text-ivory-100 lowercase">vitaly</a>
-
-  {navLinks.map(({ href, label }) => (
-    <a href={href} class="nav-link">
-      {label}
-    </a>
-  ))}
-
-  <a href="tel:+353000000000" class="phone-link">+353 00 000 0000</a>
-</div>
-
-<style>
-  #mobile-menu {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    background-color: rgba(12, 11, 9, 0.98);
-    backdrop-filter: blur(8px);
-  }
-  #mobile-menu.is-open {
-    display: flex;
-  }
-  #mobile-menu-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    color: #635c53;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  #mobile-menu-close:hover {
-    color: #f4ede0;
-  }
-  #mobile-menu .nav-link {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #a89e92;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  #mobile-menu .nav-link:hover {
-    color: #f4ede0;
-  }
-  #mobile-menu .phone-link {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: #635c53;
-    text-decoration: none;
-    margin-top: 1rem;
-    transition: color 0.3s;
-  }
-  #mobile-menu .phone-link:hover {
-    color: #f4ede0;
-  }
-</style>
-
 <script>
-  const openBtn = document.getElementById('mobile-menu-btn');
-  const closeBtn = document.getElementById('mobile-menu-close');
+  const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
-  const header = document.getElementById('site-header');
-
-  openBtn?.addEventListener('click', () => {
-    menu?.classList.add('is-open');
-    menu?.setAttribute('aria-hidden', 'false');
-  });
-
-  const closeMenu = () => {
-    menu?.classList.remove('is-open');
-    menu?.setAttribute('aria-hidden', 'true');
-  };
-
-  closeBtn?.addEventListener('click', closeMenu);
-  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-
-  const updateHeader = () => {
-    if (window.scrollY > 60) {
-      header?.style.setProperty('background-color', 'rgba(12, 11, 9, 0.95)');
-      header?.style.setProperty('backdrop-filter', 'blur(10px)');
-      header?.style.setProperty('border-bottom', '1px solid #2a2520');
-    } else {
-      header?.style.removeProperty('background-color');
-      header?.style.removeProperty('backdrop-filter');
-      header?.style.removeProperty('border-bottom');
-    }
-  };
-
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  updateHeader();
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
 </script>

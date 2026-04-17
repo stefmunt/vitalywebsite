@@ -1,47 +1,28 @@
 ---
 const images = [
-  { src: '/images/fleet-1.jpg', alt: 'Mercedes S-Class' },
-  { src: '/images/fleet-2.jpg', alt: 'Rear cabin — leather detail' },
-  { src: '/images/fleet-3.jpg', alt: 'Executive SUV' },
-  { src: '/images/fleet-4.jpg', alt: 'Door handle, close' },
-  { src: '/images/fleet-5.jpg', alt: 'Dublin Airport arrival' },
-  { src: '/images/fleet-6.jpg', alt: 'Gloved hand, interior' },
+  { src: '/images/fleet-1.jpg', alt: 'Mercedes S-Class exterior' },
+  { src: '/images/fleet-2.jpg', alt: 'Mercedes S-Class interior' },
+  { src: '/images/fleet-3.jpg', alt: 'Executive SUV exterior' },
+  { src: '/images/fleet-4.jpg', alt: 'Executive SUV interior' },
+  { src: '/images/fleet-5.jpg', alt: 'Airport transfer Dublin' },
+  { src: '/images/fleet-6.jpg', alt: 'Corporate chauffeur Dublin' },
 ];
 ---
 
-<section id="gallery" class="py-32 px-6 lg:px-16 bg-ink-950">
-  <div class="max-w-5xl">
-
-    <div class="flex items-center gap-6 mb-24">
-      <span class="text-[10px] tracking-[0.42em] uppercase text-stone-600 shrink-0">The fleet</span>
-      <div class="h-px flex-1 bg-ink-700"></div>
+<section id="gallery" class="py-24 px-4 bg-charcoal-900">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-4">Our Fleet</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold">Gallery</h2>
     </div>
 
-    <!-- Asymmetric editorial grid -->
-    <div class="grid grid-cols-12 gap-3">
-      {images.map(({ src, alt }, i) => {
-        const wide = i === 0 || i === 3;
-        return (
-          <div
-            class={[
-              wide ? 'col-span-12 md:col-span-8' : 'col-span-12 md:col-span-4',
-              wide ? 'aspect-video' : 'aspect-[4/3]',
-              'bg-ink-800 overflow-hidden group cursor-default',
-            ].join(' ')}
-          >
-            <div class="w-full h-full flex items-end p-5 border border-ink-700 group-hover:border-brass-500/20 transition-colors duration-500">
-              <p class="text-[9px] tracking-[0.3em] uppercase text-stone-700 group-hover:text-stone-500 transition-colors duration-500">
-                {alt}
-              </p>
-            </div>
-          </div>
-        );
-      })}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {images.map(({ src, alt }) => (
+        <div class="aspect-[4/3] bg-charcoal-800 rounded-lg overflow-hidden border border-white/10 flex items-center justify-center">
+          <!-- Replace with: <img src={src} alt={alt} class="w-full h-full object-cover" /> -->
+          <p class="text-white/20 text-sm text-center px-4">{alt}<br /><span class="text-xs">(image placeholder)</span></p>
+        </div>
+      ))}
     </div>
-
-    <p class="mt-8 text-[9px] tracking-[0.22em] uppercase text-stone-700 text-right">
-      Fleet images to follow
-    </p>
-
   </div>
 </section>
