@@ -9,5 +9,33 @@
 	},
 	"observability": {
 		"enabled": true
+	},
+
+	// ---------------------------------------------------------------------------
+	// Environment variables
+	// IMPORTANT: Set real values via `wrangler secret put <KEY>` for sensitive
+	// values (API keys, auth tokens). Non-sensitive values can stay here as [vars].
+	// ---------------------------------------------------------------------------
+	"vars": {
+		// Resend (email)
+		"FROM_EMAIL":     "bookings@vitalychauffeur.ie",
+		"REPLY_TO_EMAIL": "info@vitalychauffeur.com",
+		"OWNER_EMAIL":    "PLACEHOLDER_OWNER_EMAIL",
+
+		// CORS — restrict to your production domain before launch
+		"ALLOWED_ORIGIN": "https://vitalychauffeur.ie",
+
+		// Twilio (SMS) — non-secret sending number
+		"TWILIO_FROM_NUMBER": "PLACEHOLDER_TWILIO_FROM_NUMBER",
+
+		// Owner phone for SMS notifications (E.164, e.g. +353861234567)
+		"OWNER_PHONE": "PLACEHOLDER_OWNER_PHONE"
 	}
+
+	// ---------------------------------------------------------------------------
+	// Secrets — DO NOT put real values here. Run these commands once:
+	//   wrangler secret put RESEND_API_KEY
+	//   wrangler secret put TWILIO_ACCOUNT_SID
+	//   wrangler secret put TWILIO_AUTH_TOKEN
+	// ---------------------------------------------------------------------------
 }

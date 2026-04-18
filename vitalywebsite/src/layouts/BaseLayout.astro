@@ -1,53 +1,168 @@
 ---
 import '../styles/global.css';
+import '../styles/styles.css';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import CookieBanner from '@components/CookieBanner.astro';
 
 interface Props {
-  title: string;
+  title?: string;
   description: string;
   canonicalURL?: string;
+  ogImage?: string;
 }
 
 const {
   title,
   description,
   canonicalURL = Astro.url.href,
+  ogImage = '/images/og-image.jpg', /* PLACEHOLDER: Create a 1200×630px OG image */
 } = Astro.props;
 
-const siteName = 'Vitaly Executive Chauffeur';
+const siteName  = 'Vitaly Executive Chauffeur';
+const pageTitle = title
+  ? `${title} | ${siteName}`
+  : 'Dublin Chauffeur Service | Airport Transfers from €75 | Vitaly';
+
+/* PLACEHOLDER: Replace with real phone number before launch */
+const phoneRaw     = '+353XXXXXXXXX';
+const phoneDisplay = '+353 [XX XXX XXXX]';
+
+/* PLACEHOLDER: Replace with real WhatsApp number before launch */
+const whatsappNumber = '353XXXXXXXXX';
+
+/* PLACEHOLDER: Replace with real GA4 Measurement ID before launch */
+const ga4Id = 'G-XXXXXXXXXX';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-IE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Primary meta -->
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <title>{title} | {siteName}</title>
+
+    <!-- Geo targeting -->
+    <meta name="geo.region"   content="IE-D" />
+    <meta name="geo.placename" content="Dublin" />
+    <meta name="geo.position"  content="53.3498;-6.2603" />
+    <meta name="ICBM"          content="53.3498, -6.2603" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={`${title} | ${siteName}`} />
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content={siteName} />
+    <meta property="og:title"       content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:type" content="website" />
+    <meta property="og:url"         content={canonicalURL} />
+    <meta property="og:image"       content={`https://vitalychauffeur.ie${ogImage}`} />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale"      content="en_IE" />
 
-    <!-- Fonts -->
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={`https://vitalychauffeur.ie${ogImage}`} />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+
+    <!-- Favicons -->
+    <link rel="icon"             type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon"             type="image/x-icon"  href="/favicon.ico" />
+    <!-- PLACEHOLDER: Add apple-touch-icon and 192/512 PNG icons -->
+
+    <!-- Fonts — preconnect then load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- GA4 — consent mode v2: default DENIED until cookie banner accepts -->
+    <script define:vars={{ ga4Id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage:        'denied',
+        wait_for_update:   500,
+      });
+      gtag('js', new Date());
+    </script>
+    <!-- GA4 script loads after consent is granted (see CookieBanner.astro) -->
+
+    <!-- LocalBusiness + TaxiService schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["LocalBusiness", "TaxiService"],
+        "name": "Vitaly Executive Chauffeur",
+        "description": "Executive chauffeur service in Dublin, Ireland. Fixed-rate airport transfers from €75, corporate travel, VIP and private driver hire.",
+        "url": "https://vitalychauffeur.ie",
+        "telephone": "PLACEHOLDER_PHONE",
+        "email": "info@vitalychauffeur.com",
+        "logo": "https://vitalychauffeur.ie/logo.png",
+        "image": "PLACEHOLDER_OG_IMAGE",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Dublin",
+          "addressRegion": "County Dublin",
+          "addressCountry": "IE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "53.3498",
+          "longitude": "-6.2603"
+        },
+        "areaServed": [
+          { "@type": "City",    "name": "Dublin" },
+          { "@type": "Country", "name": "Ireland" }
+        ],
+        "priceRange": "€€€",
+        "currenciesAccepted": "EUR",
+        "paymentAccepted": "Cash, Credit Card, Debit Card, Bank Transfer, Invoice",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "05:00",
+            "closes": "23:59"
+          }
+        ],
+        "vatID": "PLACEHOLDER_VAT",
+        "legalName": "PLACEHOLDER_LEGAL_NAME",
+        "sameAs": [
+          "PLACEHOLDER_INSTAGRAM_URL",
+          "PLACEHOLDER_LINKEDIN_URL",
+          "PLACEHOLDER_GOOGLE_BUSINESS_URL"
+        ]
+      }
+    </script>
+
+    <!-- PLACEHOLDER: Add slot for page-level JSON-LD (FAQ schema on homepage) -->
+    <slot name="head" />
+    <!-- Standalone app.js — loaded last so it doesn't block render -->
+    <script src="/app.js" defer></script>
   </head>
+
   <body class="bg-charcoal-900 text-white antialiased">
+    <!-- Skip to main content — keyboard/screen-reader navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <CookieBanner />
     <Header />
-    <main>
+
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
+
     <Footer />
   </body>
 </html>

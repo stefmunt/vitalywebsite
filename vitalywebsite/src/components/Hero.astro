@@ -1,43 +1,92 @@
 ---
+import QuoteWidget from './QuoteWidget.astro';
 ---
 
-<section class="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden">
-  <!-- Background -->
-  <div class="absolute inset-0 bg-charcoal-900">
-    <img src="/images/mychauffeur.jpg" alt="" class="absolute inset-0 w-full h-full object-cover object-center" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-charcoal-900"></div>
+<!--
+  HERO SECTION
+  ─────────────────────────────────────────────────────────────────────────────
+  PLACEHOLDER (background): Commission a blue-hour exterior shot of a
+  2023 Mercedes S-Class (W223) in pearl white or obsidian black parked
+  at one of these locations (in priority order):
+    1. Dublin Convention Centre D2 — Samuel Beckett Bridge visible
+    2. The Shelbourne Hotel, St Stephen's Green
+    3. Dublin Airport T1 or T2 forecourt (golden hour)
+  Framing: car occupies right 60% of frame; left side open for text overlay.
+  Aspect: landscape, minimum 2560×1440px. Deliver as WebP + JPEG fallback.
+  Replace /images/hero-bg.jpg below with the final commissioned shot.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<section
+  id="quote"
+  class="relative min-h-screen flex items-center overflow-hidden"
+  aria-labelledby="hero-heading"
+>
+  <!-- Background image with overlay -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <!--
+      PLACEHOLDER: Replace src with commissioned hero shot.
+      Use /mychauffeur.jpg as temporary placeholder only.
+    -->
+    <img
+      src="/mychauffeur.jpg"
+      alt=""
+      width="2560"
+      height="1440"
+      class="absolute inset-0 w-full h-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <!-- Gradient: darker on left (text), lighter reveal on right (car) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-charcoal-950/90 via-charcoal-950/70 to-charcoal-950/30"></div>
+    <!-- Bottom fade into page -->
+    <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-charcoal-900 to-transparent"></div>
   </div>
 
   <!-- Content -->
-  <div class="relative z-10 max-w-4xl mx-auto pt-24">
-    <p class="text-gold-400 text-sm tracking-[0.3em] uppercase mb-6">Dublin, Ireland</p>
-    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-      Premium Executive<br />Chauffeur Service
-    </h1>
-    <p class="text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-      Luxury VIP transport, corporate travel, and reliable airport transfers across Dublin
-      — driven by professionalism, defined by comfort.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a
-        href="#contact"
-        class="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold tracking-wide rounded transition-colors duration-200"
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-20 lg:pt-36 lg:pb-28">
+    <div class="max-w-xl lg:max-w-2xl">
+
+      <!-- Eyebrow -->
+      <p class="text-gold-400 text-xs tracking-[0.35em] uppercase mb-5 animate-fade-up" aria-hidden="true">
+        Dublin, Ireland
+      </p>
+
+      <!-- H1 — specific, price-anchored, Dublin-first -->
+      <h1
+        id="hero-heading"
+        class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5 animate-fade-up-d1"
       >
-        Book a Transfer
-      </a>
-      <a
-        href="#services"
-        class="px-8 py-4 border border-white/30 hover:border-gold-400 hover:text-gold-400 font-semibold tracking-wide rounded transition-colors duration-200"
-      >
-        Our Services
-      </a>
+        Dublin Airport to your door.
+        <span class="block text-gold-400 mt-1">Fixed rate from €75.</span>
+      </h1>
+
+      <!-- Subhead — vehicle spec + trust signal + speed promise -->
+      <p class="text-white/75 text-lg sm:text-xl leading-relaxed mb-10 animate-fade-up-d2 max-w-lg">
+        2023 Mercedes S-Class and executive SUVs. Garda-vetted, minimum 5 years'
+        experience. Confirmation in 10 minutes.
+      </p>
+
+      <!-- Inline quote widget — the ONE primary CTA -->
+      <div class="animate-fade-up-d3 max-w-lg">
+        <QuoteWidget id="hero" dark={true} />
+      </div>
+
+      <!-- Micro-copy below widget -->
+      <p class="mt-4 text-white/40 text-xs animate-fade-up-d3">
+        Fixed prices · No surge pricing · All prices incl. VAT
+      </p>
+
     </div>
   </div>
 
   <!-- Scroll indicator -->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-    <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+  <div
+    class="absolute bottom-8 left-1/2 animate-bounce-y"
+    style="transform: translateX(-50%);"
+    aria-hidden="true"
+  >
+    <svg class="w-5 h-5 text-gold-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
     </svg>
   </div>
 </section>

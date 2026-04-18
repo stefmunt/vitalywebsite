@@ -1,0 +1,1622 @@
+/*
+  ╔══════════════════════════════════════════════════════════════════════╗
+  ║  VITALY EXECUTIVE CHAUFFEUR — styles.css                            ║
+  ║  Complete design system & component styles                          ║
+  ║                                                                      ║
+  ║  Companion to global.css (Tailwind v4 config).                      ║
+  ║  global.css: Tailwind @theme, @layer base, keyframes, utility CSS.  ║
+  ║  styles.css: CSS custom properties, component styles, all states,   ║
+  ║              responsive rules, print, reduced motion.               ║
+  ╚══════════════════════════════════════════════════════════════════════╝
+
+  Table of Contents
+  ─────────────────
+  §1   Semantic tokens (colour, typography, spacing, shadow, motion)
+  §2   Typography scale
+  §3   Layout & containers
+  §4   Buttons — all variants, all interactive states
+  §5   Form controls — all input types, all states
+  §6   Navigation / site header
+  §7   Hero section
+  §8   Quote widget
+  §9   Trust strip
+  §10  Section headers & eyebrows
+  §11  How It Works steps
+  §12  Service cards
+  §13  Fleet cards
+  §14  Meet Your Chauffeur
+  §15  Testimonial / review cards
+  §16  FAQ accordion
+  §17  Booking form
+  §18  Cookie banner & preference modal
+  §19  Footer
+  §20  Responsive overrides (mobile-first: sm → xl)
+  §21  Print stylesheet
+  §22  Prefers-reduced-motion overrides
+  §23  Prefers-contrast overrides
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §1 — SEMANTIC TOKENS
+   Raw design tokens live in global.css @theme.
+   This block maps them to semantic aliases used by components.
+   Change a semantic alias here to retheme without touching components.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  /* ── Surfaces ─────────────────────────────────────────────────────── */
+  --vc-bg-page:     #0f0f0f;  /* charcoal-900 — body background */
+  --vc-bg-card:     #1a1a1a;  /* charcoal-800 — card / section surface */
+  --vc-bg-raised:   #1f1f1f;  /* charcoal-750 — elevated element */
+  --vc-bg-input:    #252525;  /* charcoal-700 — form field fill */
+  --vc-bg-footer:   #050505;  /* charcoal-950 — deep footer */
+  --vc-bg-overlay:  rgba(5, 5, 5, 0.85);  /* modal/drawer backdrop */
+
+  /* ── Brand / Accent ───────────────────────────────────────────────── */
+  --vc-accent:          #c9a84c;  /* gold-500 — primary actions */
+  --vc-accent-hover:    #b8972f;  /* gold-600 — hover state */
+  --vc-accent-active:   #9a7e20;  /* gold-700 — pressed state */
+  --vc-accent-pale:     #d4af5a;  /* gold-400 — highlights, icons */
+  --vc-accent-bright:   #e8cf78;  /* gold-300 — emphasis text */
+  --vc-accent-bg:       rgba(201, 168, 76, 0.06);   /* subtle gold tint */
+  --vc-accent-bg-mid:   rgba(201, 168, 76, 0.12);
+  --vc-accent-border:   rgba(201, 168, 76, 0.35);
+
+  /* ── Text ─────────────────────────────────────────────────────────── */
+  --vc-text-primary:   #ffffff;
+  --vc-text-body:      rgba(255, 255, 255, 0.70);
+  --vc-text-muted:     rgba(255, 255, 255, 0.45);
+  --vc-text-faint:     rgba(255, 255, 255, 0.28);
+  --vc-text-on-gold:   #0f0f0f;  /* text placed on gold backgrounds */
+  --vc-text-gold:      #c9a84c;
+  --vc-text-gold-pale: #d4af5a;
+
+  /* ── Status colours ───────────────────────────────────────────────── */
+  --vc-success:        #22c55e;
+  --vc-success-bg:     rgba(34, 197, 94, 0.08);
+  --vc-error:          #f87171;
+  --vc-error-bg:       rgba(248, 113, 113, 0.08);
+  --vc-error-border:   rgba(248, 113, 113, 0.30);
+  --vc-whatsapp:       #25D366;
+  --vc-whatsapp-hover: #1da851;
+
+  /* ── Borders ──────────────────────────────────────────────────────── */
+  --vc-border:      rgba(255, 255, 255, 0.08);
+  --vc-border-mid:  rgba(255, 255, 255, 0.15);
+  --vc-border-high: rgba(255, 255, 255, 0.25);
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --vc-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.60);
+  --vc-shadow-sm: 0 2px 6px  rgba(0, 0, 0, 0.50);
+  --vc-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+  --vc-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --vc-shadow-xl: 0 28px 60px rgba(0, 0, 0, 0.65);
+  /* Gold glow — used on focused primary CTAs */
+  --vc-shadow-gold-focus: 0 0 0 3px rgba(201, 168, 76, 0.40);
+  --vc-shadow-gold-glow:  0 0 24px rgba(201, 168, 76, 0.18);
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --vc-font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --vc-font-sans:  "Inter", system-ui, -apple-system, sans-serif;
+  --vc-font-mono:  "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* Type scale */
+  --vc-text-xs:   0.6875rem;   /* 11px */
+  --vc-text-sm:   0.8125rem;   /* 13px */  /* NOTE: Tailwind 'text-sm' = 14px; we use 13px for labels */
+  --vc-text-base: 1rem;        /* 16px */
+  --vc-text-md:   1.0625rem;   /* 17px */
+  --vc-text-lg:   1.125rem;    /* 18px */
+  --vc-text-xl:   1.25rem;     /* 20px */
+  --vc-text-2xl:  1.5rem;      /* 24px */
+  --vc-text-3xl:  1.875rem;    /* 30px */
+  --vc-text-4xl:  2.25rem;     /* 36px */
+  --vc-text-5xl:  clamp(2.5rem, 5vw, 3rem);    /* fluid 40→48px */
+  --vc-text-hero: clamp(2.5rem, 6vw, 3.75rem); /* fluid 40→60px */
+
+  /* Line-heights */
+  --vc-leading-none:    1.0;
+  --vc-leading-tight:   1.15;
+  --vc-leading-snug:    1.30;
+  --vc-leading-normal:  1.50;
+  --vc-leading-relaxed: 1.70;
+
+  /* Letter-spacing */
+  --vc-tracking-tight:   -0.015em;
+  --vc-tracking-normal:   0em;
+  --vc-tracking-wide:     0.025em;
+  --vc-tracking-wider:    0.06em;
+  --vc-tracking-eyebrow:  0.30em;
+
+  /* ── Spacing scale ────────────────────────────────────────────────── */
+  --vc-sp-1: 0.25rem;  --vc-sp-2:  0.5rem;   --vc-sp-3:  0.75rem;
+  --vc-sp-4: 1rem;     --vc-sp-5:  1.25rem;  --vc-sp-6:  1.5rem;
+  --vc-sp-8: 2rem;     --vc-sp-10: 2.5rem;   --vc-sp-12: 3rem;
+  --vc-sp-14: 3.5rem;  --vc-sp-16: 4rem;     --vc-sp-20: 5rem;
+  --vc-sp-24: 6rem;    --vc-sp-28: 7rem;     --vc-sp-32: 8rem;
+
+  /* Section vertical rhythm */
+  --vc-section-y: clamp(4rem, 8vw, 6rem);
+
+  /* ── Border radii ─────────────────────────────────────────────────── */
+  --vc-radius-sm:   0.375rem;
+  --vc-radius-md:   0.5rem;
+  --vc-radius-lg:   0.75rem;
+  --vc-radius-xl:   1rem;
+  --vc-radius-2xl:  1.25rem;
+  --vc-radius-pill: 9999px;
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --vc-ease:         cubic-bezier(0.4, 0, 0.2, 1);   /* standard */
+  --vc-ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --vc-ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --vc-ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot */
+
+  --vc-dur-instant: 80ms;
+  --vc-dur-fast:    150ms;
+  --vc-dur-base:    220ms;
+  --vc-dur-slow:    350ms;
+  --vc-dur-slower:  550ms;
+
+  /* ── Z-index scale ────────────────────────────────────────────────── */
+  --vc-z-below:   -1;
+  --vc-z-base:    0;
+  --vc-z-raised:  10;
+  --vc-z-sticky:  40;
+  --vc-z-header:  50;
+  --vc-z-dropdown: 60;
+  --vc-z-cookie:  200;
+  --vc-z-modal:   300;
+  --vc-z-toast:   400;
+
+  /* ── Layout ───────────────────────────────────────────────────────── */
+  --vc-max-content: 80rem;   /* 1280px */
+  --vc-gutter:      clamp(1rem, 4vw, 2rem);
+  --vc-header-h:    5rem;    /* 80px desktop */
+  --vc-header-h-lg: 5.5rem;  /* 88px large desktop */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §2 — TYPOGRAPHY SCALE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Display headings — Playfair Display */
+.heading-hero {
+  font-family: var(--vc-font-serif);
+  font-size: var(--vc-text-hero);
+  font-weight: 700;
+  line-height: var(--vc-leading-tight);
+  letter-spacing: var(--vc-tracking-tight);
+  color: var(--vc-text-primary);
+}
+
+.heading-section {
+  font-family: var(--vc-font-serif);
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: var(--vc-leading-snug);
+  color: var(--vc-text-primary);
+}
+
+.heading-card {
+  font-family: var(--vc-font-serif);
+  font-size: var(--vc-text-xl);
+  font-weight: 600;
+  line-height: var(--vc-leading-snug);
+}
+
+/* Eyebrow labels */
+.eyebrow {
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--vc-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--vc-text-gold);
+}
+
+/* Body copy */
+.body-lg  { font-size: var(--vc-text-lg);   line-height: var(--vc-leading-relaxed); color: var(--vc-text-body); }
+.body-base { font-size: var(--vc-text-base); line-height: var(--vc-leading-relaxed); color: var(--vc-text-body); }
+.body-sm   { font-size: var(--vc-text-sm);   line-height: var(--vc-leading-relaxed); color: var(--vc-text-muted); }
+
+/* Price anchor */
+.price-anchor {
+  font-family: var(--vc-font-serif);
+  font-size: var(--vc-text-2xl);
+  font-weight: 600;
+  color: var(--vc-text-gold);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §3 — LAYOUT & CONTAINERS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.container {
+  width: 100%;
+  max-width: var(--vc-max-content);
+  margin-inline: auto;
+  padding-inline: var(--vc-gutter);
+}
+
+.section-pad {
+  padding-block: var(--vc-section-y);
+}
+
+/* Consistent section spacing above content below sticky header */
+.below-header {
+  padding-top: calc(var(--vc-header-h) + var(--vc-sp-8));
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §4 — BUTTONS
+   All variants with every interactive state.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Base button reset ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vc-sp-2);
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--vc-radius-lg);
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-sm);
+  font-weight: 600;
+  letter-spacing: var(--vc-tracking-wide);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  transition:
+    background-color var(--vc-dur-base) var(--vc-ease),
+    border-color     var(--vc-dur-base) var(--vc-ease),
+    color            var(--vc-dur-base) var(--vc-ease),
+    box-shadow       var(--vc-dur-base) var(--vc-ease),
+    transform        var(--vc-dur-fast) var(--vc-ease-spring);
+}
+
+/* ── Primary (gold fill) ── */
+.btn-primary {
+  background-color: var(--vc-accent);
+  border-color:     var(--vc-accent);
+  color:            var(--vc-text-on-gold);
+}
+.btn-primary:hover {
+  background-color: var(--vc-accent-hover);
+  border-color:     var(--vc-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--vc-shadow-gold-glow);
+}
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--vc-shadow-gold-focus);
+}
+.btn-primary:active {
+  background-color: var(--vc-accent-active);
+  border-color:     var(--vc-accent-active);
+  transform: translateY(0) scale(0.985);
+  box-shadow: none;
+}
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Secondary (bordered) ── */
+.btn-secondary {
+  background-color: transparent;
+  border-color:     var(--vc-border-mid);
+  color:            var(--vc-text-body);
+}
+.btn-secondary:hover {
+  border-color: var(--vc-accent-border);
+  color:        var(--vc-text-gold-pale);
+  background-color: var(--vc-accent-bg);
+}
+.btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: var(--vc-shadow-gold-focus);
+}
+.btn-secondary:active {
+  background-color: var(--vc-accent-bg-mid);
+  border-color:     var(--vc-accent-border);
+  transform: scale(0.985);
+}
+.btn-secondary:disabled,
+.btn-secondary[aria-disabled="true"] {
+  opacity: 0.40;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Ghost (text only) ── */
+.btn-ghost {
+  background-color: transparent;
+  border-color:     transparent;
+  color:            var(--vc-text-gold);
+  padding-inline:   0;
+}
+.btn-ghost:hover  { color: var(--vc-accent-bright); }
+.btn-ghost:focus-visible { outline: none; box-shadow: var(--vc-shadow-gold-focus); border-radius: var(--vc-radius-sm); }
+.btn-ghost:active { opacity: 0.75; }
+.btn-ghost:disabled,
+.btn-ghost[aria-disabled="true"] { opacity: 0.30; cursor: not-allowed; pointer-events: none; }
+
+/* ── WhatsApp ── */
+.btn-wa {
+  background-color: var(--vc-whatsapp);
+  border-color:     var(--vc-whatsapp);
+  color:            #ffffff;
+}
+.btn-wa:hover {
+  background-color: var(--vc-whatsapp-hover);
+  border-color:     var(--vc-whatsapp-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.22);
+}
+.btn-wa:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.40);
+}
+.btn-wa:active {
+  background-color: #1a9648;
+  transform: translateY(0) scale(0.985);
+  box-shadow: none;
+}
+.btn-wa:disabled,
+.btn-wa[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+/* ── Phone link ── */
+.link-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vc-sp-2);
+  color: var(--vc-text-body);
+  text-decoration: none;
+  transition: color var(--vc-dur-base) var(--vc-ease);
+}
+.link-phone:hover        { color: var(--vc-text-gold-pale); }
+.link-phone:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 3px; border-radius: var(--vc-radius-sm); }
+.link-phone:active       { color: var(--vc-text-gold); }
+
+/* ── Inline text link ── */
+.link-inline {
+  color: var(--vc-text-gold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--vc-dur-base) var(--vc-ease);
+}
+.link-inline:hover        { color: var(--vc-accent-bright); }
+.link-inline:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 3px; border-radius: 2px; }
+.link-inline:active       { opacity: 0.80; }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §5 — FORM CONTROLS
+   All input types, all states.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Shared base ── */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vc-sp-2);
+}
+
+.form-label {
+  font-size: var(--vc-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--vc-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--vc-text-muted);
+}
+
+.form-label .required-mark {
+  color: var(--vc-text-gold);
+  margin-left: 2px;
+}
+
+/* ── Text / Email / Tel / Date / Time inputs ── */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  background-color: var(--vc-bg-input);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-lg);
+  padding: 0.75rem 1rem;
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-base);
+  color: var(--vc-text-primary);
+  outline: none;
+  transition:
+    border-color var(--vc-dur-base) var(--vc-ease),
+    box-shadow   var(--vc-dur-base) var(--vc-ease),
+    background-color var(--vc-dur-base) var(--vc-ease);
+  /* Prevent zoom on iOS for inputs smaller than 16px */
+  font-size: max(1rem, 16px);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--vc-text-faint);
+}
+
+/* ── Hover ── */
+.form-input:hover:not(:focus):not(:disabled),
+.form-select:hover:not(:focus):not(:disabled),
+.form-textarea:hover:not(:focus):not(:disabled) {
+  border-color: var(--vc-border-mid);
+}
+
+/* ── Focus ── */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--vc-accent);
+  box-shadow: 0 0 0 3px var(--vc-accent-bg-mid);
+  background-color: var(--vc-bg-raised);
+}
+
+/* ── Valid (after interaction — requires JS to add class or use :user-valid) ── */
+.form-input:user-valid:not(:placeholder-shown),
+.form-textarea:user-valid:not(:placeholder-shown) {
+  border-color: rgba(34, 197, 94, 0.40);
+}
+
+/* ── Invalid (after interaction) ── */
+.form-input:user-invalid,
+.form-textarea:user-invalid,
+.form-input.is-invalid,
+.form-textarea.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--vc-error-border);
+  box-shadow: 0 0 0 3px var(--vc-error-bg);
+}
+
+/* ── Disabled ── */
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  opacity: 0.50;
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* ── Read-only ── */
+.form-input:read-only {
+  background-color: rgba(255, 255, 255, 0.03);
+  cursor: default;
+}
+
+/* ── Select — custom chevron ── */
+.form-select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23c9a84c' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+.form-select option {
+  background-color: var(--vc-bg-card);
+  color: var(--vc-text-primary);
+}
+
+/* ── Textarea ── */
+.form-textarea {
+  resize: none;
+  min-height: 6rem;
+}
+
+/* ── Date / Time — colour the native picker icon ── */
+.form-input[type="date"]::-webkit-calendar-picker-indicator,
+.form-input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(1) saturate(3) hue-rotate(5deg);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.form-input[type="date"]::-webkit-calendar-picker-indicator:hover,
+.form-input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* ── Error message ── */
+.form-error-msg {
+  font-size: var(--vc-text-xs);
+  color: var(--vc-error);
+  margin-top: var(--vc-sp-1);
+  display: flex;
+  align-items: center;
+  gap: var(--vc-sp-1);
+}
+
+/* ── Toggle switch (cookie banner) ── */
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 2.5rem;      /* 40px */
+  height: 1.5rem;     /* 24px */
+  border-radius: var(--vc-radius-pill);
+  background-color: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0.125rem;
+  border: none;
+  outline: none;
+  transition:
+    background-color var(--vc-dur-base) var(--vc-ease),
+    box-shadow       var(--vc-dur-base) var(--vc-ease);
+}
+.toggle-switch:focus-visible {
+  box-shadow: 0 0 0 3px var(--vc-accent-bg-mid), 0 0 0 5px var(--vc-accent);
+}
+.toggle-switch[aria-checked="true"] {
+  background-color: var(--vc-accent);
+}
+.toggle-switch[aria-checked="true"]:hover {
+  background-color: var(--vc-accent-hover);
+}
+.toggle-switch[aria-checked="false"]:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.toggle-switch[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.toggle-knob {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.55);
+  box-shadow: var(--vc-shadow-xs);
+  transition:
+    transform     var(--vc-dur-base) var(--vc-ease-spring),
+    background-color var(--vc-dur-base) var(--vc-ease);
+}
+.toggle-switch[aria-checked="true"] .toggle-knob {
+  transform: translateX(1rem); /* 16px */
+  background-color: #ffffff;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §6 — NAVIGATION / SITE HEADER
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vc-z-header);
+  height: var(--vc-header-h);
+  transition:
+    background-color var(--vc-dur-slow) var(--vc-ease),
+    backdrop-filter  var(--vc-dur-slow) var(--vc-ease),
+    box-shadow       var(--vc-dur-slow) var(--vc-ease);
+}
+
+/* Scrolled state — applied by JS */
+.site-header[data-scrolled="true"] {
+  background-color: rgba(15, 15, 15, 0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--vc-border), var(--vc-shadow-md);
+}
+
+.nav-link {
+  font-size: var(--vc-text-sm);
+  font-weight: 500;
+  letter-spacing: var(--vc-tracking-wide);
+  color: var(--vc-text-muted);
+  text-decoration: none;
+  padding-block: var(--vc-sp-1);
+  border-bottom: 1px solid transparent;
+  transition:
+    color        var(--vc-dur-fast) var(--vc-ease),
+    border-color var(--vc-dur-fast) var(--vc-ease);
+}
+.nav-link:hover {
+  color: var(--vc-text-gold-pale);
+}
+.nav-link:focus-visible {
+  outline: 2px solid var(--vc-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+.nav-link[aria-current="page"] {
+  color: var(--vc-text-gold);
+  border-bottom-color: var(--vc-accent);
+}
+
+/* Mobile nav drawer */
+.mobile-nav-drawer {
+  background-color: rgba(15, 15, 15, 0.98);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--vc-border);
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 0.875rem var(--vc-sp-2);
+  color: var(--vc-text-muted);
+  text-decoration: none;
+  font-size: var(--vc-text-base);
+  font-weight: 500;
+  border-bottom: 1px solid var(--vc-border);
+  transition: color var(--vc-dur-fast) var(--vc-ease);
+}
+.mobile-nav-link:hover        { color: var(--vc-text-gold-pale); }
+.mobile-nav-link:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: -2px; }
+.mobile-nav-link:last-child   { border-bottom: none; }
+
+/* Icon button (hamburger, phone, WA in header) */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--vc-radius-md);
+  border: none;
+  background: transparent;
+  color: var(--vc-text-muted);
+  cursor: pointer;
+  transition:
+    color            var(--vc-dur-fast) var(--vc-ease),
+    background-color var(--vc-dur-fast) var(--vc-ease);
+}
+.icon-btn:hover        { color: var(--vc-text-primary); background-color: rgba(255,255,255,0.06); }
+.icon-btn:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 2px; }
+.icon-btn:active       { background-color: rgba(255,255,255,0.10); transform: scale(0.93); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §7 — HERO SECTION
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* LCP image — no lazy loading applied (see hero.astro) */
+}
+
+/* Directional gradient: dense left (text), reveals right (car) */
+.hero-overlay-lr {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(5, 5, 5, 0.92)  0%,
+    rgba(5, 5, 5, 0.72) 45%,
+    rgba(5, 5, 5, 0.25) 75%,
+    rgba(5, 5, 5, 0.10) 100%
+  );
+}
+
+/* Mobile: full overlay (can't lean on left-text layout at small widths) */
+@media (max-width: 767px) {
+  .hero-overlay-lr {
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 5, 5, 0.70) 0%,
+      rgba(5, 5, 5, 0.60) 50%,
+      rgba(15, 15, 15, 1) 100%
+    );
+  }
+}
+
+/* Bottom fade into page background */
+.hero-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12rem;
+  background: linear-gradient(to top, var(--vc-bg-page) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §8 — QUOTE WIDGET
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.quote-widget {
+  background-color: rgba(26, 26, 26, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-xl);
+  padding: var(--vc-sp-6);
+}
+
+/* Tab bar */
+.quote-tab-bar {
+  display: flex;
+  gap: var(--vc-sp-1);
+  padding: var(--vc-sp-1);
+  background-color: rgba(5, 5, 5, 0.50);
+  border-radius: var(--vc-radius-lg);
+  margin-bottom: var(--vc-sp-5);
+}
+
+.quote-tab {
+  flex: 1;
+  padding: var(--vc-sp-2) var(--vc-sp-3);
+  border: none;
+  border-radius: var(--vc-radius-md);
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-sm);
+  font-weight: 500;
+  letter-spacing: var(--vc-tracking-wide);
+  cursor: pointer;
+  color: var(--vc-text-muted);
+  background-color: transparent;
+  transition:
+    background-color var(--vc-dur-base) var(--vc-ease),
+    color            var(--vc-dur-base) var(--vc-ease),
+    box-shadow       var(--vc-dur-base) var(--vc-ease);
+}
+.quote-tab:hover:not([aria-selected="true"]) {
+  color: var(--vc-text-primary);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.quote-tab:focus-visible {
+  outline: 2px solid var(--vc-accent);
+  outline-offset: -2px;
+}
+.quote-tab[aria-selected="true"] {
+  background-color: var(--vc-accent);
+  color: var(--vc-text-on-gold);
+  box-shadow: var(--vc-shadow-xs);
+}
+.quote-tab[aria-selected="true"]:hover {
+  background-color: var(--vc-accent-hover);
+}
+
+/* Price result card */
+.price-result-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vc-sp-4);
+  border: 1px solid var(--vc-accent-border);
+  background-color: var(--vc-accent-bg);
+  border-radius: var(--vc-radius-lg);
+  padding: var(--vc-sp-3) var(--vc-sp-4);
+  animation: fade-up 0.30s var(--vc-ease) both;
+}
+
+.price-result-amount {
+  font-family: var(--vc-font-serif);
+  font-size: var(--vc-text-2xl);
+  font-weight: 600;
+  color: var(--vc-text-gold-pale);
+  line-height: 1;
+}
+
+.price-result-label {
+  font-size: var(--vc-text-xs);
+  color: var(--vc-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--vc-tracking-eyebrow);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §9 — TRUST STRIP
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.trust-strip {
+  background-color: var(--vc-bg-card);
+  border-top:    1px solid var(--vc-border);
+  border-bottom: 1px solid var(--vc-border);
+  overflow-x: auto;
+  scrollbar-width: none;  /* Firefox */
+}
+.trust-strip::-webkit-scrollbar { display: none; }
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: var(--vc-sp-3);
+  white-space: nowrap;
+}
+
+.trust-item a {
+  color: var(--vc-text-primary);
+  text-decoration: none;
+  transition: color var(--vc-dur-fast) var(--vc-ease);
+}
+.trust-item a:hover        { color: var(--vc-text-gold-pale); }
+.trust-item a:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 3px; border-radius: 2px; }
+
+.trust-divider {
+  width: 1px;
+  height: 1.75rem;
+  background-color: var(--vc-border);
+  flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §10 — SECTION HEADERS & EYEBROWS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Gold rule — decorative leading line above section headings */
+.gold-rule {
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  background-color: var(--vc-accent);
+  margin-bottom: 1rem;
+}
+
+/* Section header group */
+.section-header {
+  max-width: 38rem;
+  margin-bottom: 3.5rem;
+}
+
+.section-header--center {
+  max-width: 38rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.section-header--center .gold-rule {
+  margin-inline: auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §11 — HOW IT WORKS STEPS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.step-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--vc-accent-border);
+  background-color: var(--vc-accent-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vc-text-gold-pale);
+  flex-shrink: 0;
+  transition:
+    background-color var(--vc-dur-base) var(--vc-ease),
+    border-color     var(--vc-dur-base) var(--vc-ease);
+}
+.step-icon:where(:hover *) { /* when parent step is hovered */
+  background-color: var(--vc-accent-bg-mid);
+  border-color: var(--vc-accent);
+}
+
+.step-promise-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vc-sp-2);
+  font-size: var(--vc-text-xs);
+  font-weight: 500;
+  color: var(--vc-text-gold);
+  background-color: var(--vc-accent-bg);
+  border: 1px solid var(--vc-accent-border);
+  border-radius: var(--vc-radius-pill);
+  padding: 0.25rem 0.75rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §12 — SERVICE CARDS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--vc-bg-page);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-xl);
+  padding: 1.75rem;
+  transition:
+    border-color  var(--vc-dur-base) var(--vc-ease),
+    box-shadow    var(--vc-dur-base) var(--vc-ease),
+    transform     var(--vc-dur-base) var(--vc-ease-spring);
+}
+.service-card:hover {
+  border-color: var(--vc-accent-border);
+  box-shadow: var(--vc-shadow-gold-glow);
+  transform: translateY(-2px);
+}
+.service-card:focus-within {
+  border-color: var(--vc-accent-border);
+}
+
+/* Highlighted card (airport transfers — most popular) */
+.service-card--highlight {
+  border-color: rgba(201, 168, 76, 0.45);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.12);
+}
+.service-card--highlight:hover {
+  box-shadow:
+    var(--vc-shadow-gold-glow),
+    0 0 0 1px rgba(201, 168, 76, 0.20);
+}
+
+/* CTA inside card */
+.service-card .btn-primary:focus-visible {
+  box-shadow: var(--vc-shadow-gold-focus);
+  outline: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §13 — FLEET CARDS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.fleet-card {
+  border-radius: var(--vc-radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--vc-border);
+  transition: border-color var(--vc-dur-base) var(--vc-ease);
+}
+.fleet-card--highlight {
+  border-color: rgba(201, 168, 76, 0.40);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.10);
+}
+
+/* Image pair — hover zoom */
+.fleet-img-wrap {
+  overflow: hidden;
+  background-color: var(--vc-bg-card);
+}
+.fleet-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--vc-dur-slower) var(--vc-ease);
+}
+.fleet-card:hover .fleet-img-wrap img {
+  transform: scale(1.04);
+}
+
+/* Spec pill */
+.spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vc-sp-2);
+  font-size: var(--vc-text-xs);
+  color: var(--vc-text-muted);
+  background-color: var(--vc-bg-input);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-pill);
+  padding: 0.375rem 0.875rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §14 — MEET YOUR CHAUFFEUR
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.chauffeur-photo-frame {
+  position: relative;
+  border-radius: var(--vc-radius-xl);
+  overflow: hidden;
+  background-color: var(--vc-bg-input);
+}
+.chauffeur-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform var(--vc-dur-slower) var(--vc-ease);
+}
+.chauffeur-photo-frame:hover img {
+  transform: scale(1.025);
+}
+
+/* Gold corner accent */
+.chauffeur-photo-frame::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  right: -0.75rem;
+  width: 5rem;
+  height: 5rem;
+  border-right: 2px solid rgba(201, 168, 76, 0.35);
+  border-bottom: 2px solid rgba(201, 168, 76, 0.35);
+  border-radius: 0 0 var(--vc-radius-lg) 0;
+  pointer-events: none;
+}
+
+/* Credential pill */
+.credential-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vc-sp-2);
+  font-size: var(--vc-text-sm);
+  color: var(--vc-text-body);
+  background-color: var(--vc-bg-page);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-pill);
+  padding: 0.5rem 1rem;
+  transition:
+    border-color     var(--vc-dur-base) var(--vc-ease),
+    background-color var(--vc-dur-base) var(--vc-ease);
+}
+.credential-pill:hover {
+  border-color: var(--vc-accent-border);
+  background-color: var(--vc-accent-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §15 — TESTIMONIAL / REVIEW CARDS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--vc-bg-card);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-xl);
+  padding: 1.75rem;
+  transition:
+    border-color var(--vc-dur-base) var(--vc-ease),
+    transform    var(--vc-dur-base) var(--vc-ease-spring);
+}
+.review-card:hover {
+  border-color: rgba(201, 168, 76, 0.18);
+  transform: translateY(-2px);
+}
+
+.review-stars {
+  color: var(--vc-text-gold-pale);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  font-size: 1rem;
+}
+
+.review-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--vc-bg-input);
+  border: 1px solid var(--vc-border);
+  flex-shrink: 0;
+}
+.review-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Avatar fallback initials */
+.review-avatar-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--vc-accent-bg);
+  color: var(--vc-text-gold);
+  font-size: var(--vc-text-sm);
+  font-weight: 600;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §16 — FAQ ACCORDION
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.faq-question-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vc-sp-4);
+  padding-block: 1.25rem;
+  background: transparent;
+  border: none;
+  color: var(--vc-text-primary);
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-base);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--vc-dur-fast) var(--vc-ease);
+}
+.faq-question-btn:hover {
+  color: var(--vc-text-gold-pale);
+}
+.faq-question-btn:focus-visible {
+  outline: 2px solid var(--vc-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.faq-question-btn[aria-expanded="true"] {
+  color: var(--vc-text-gold-pale);
+}
+
+/* Icon circle */
+.faq-icon-wrap {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--vc-border-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vc-text-muted);
+  transition:
+    border-color     var(--vc-dur-base) var(--vc-ease),
+    color            var(--vc-dur-base) var(--vc-ease),
+    background-color var(--vc-dur-base) var(--vc-ease);
+}
+.faq-question-btn[aria-expanded="true"] .faq-icon-wrap {
+  border-color: var(--vc-accent-border);
+  color:        var(--vc-text-gold);
+  background-color: var(--vc-accent-bg);
+}
+.faq-question-btn:hover .faq-icon-wrap {
+  border-color: var(--vc-accent-border);
+}
+
+/* Answer body — animated open/close via global.css .faq-body */
+.faq-answer-text {
+  font-size: var(--vc-text-base);
+  color: var(--vc-text-body);
+  line-height: var(--vc-leading-relaxed);
+  padding-bottom: 1.25rem;
+  padding-right: 2.5rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §17 — BOOKING FORM
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.booking-form-card {
+  background-color: var(--vc-bg-card);
+  border: 1px solid var(--vc-border);
+  border-radius: var(--vc-radius-xl);
+  padding: 1.75rem;
+}
+
+/* Success state */
+.booking-success-state {
+  display: none; /* shown via JS */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--vc-sp-5);
+  padding-block: var(--vc-sp-16);
+}
+.booking-success-state.visible {
+  display: flex;
+}
+
+.booking-success-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--vc-accent-bg);
+  border: 1px solid var(--vc-accent-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vc-text-gold-pale);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §18 — COOKIE BANNER & PREFERENCE MODAL
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Banner */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vc-z-cookie);
+  padding: 1rem;
+}
+
+#cookie-banner .inner {
+  max-width: var(--vc-max-content);
+  margin-inline: auto;
+  background-color: var(--vc-bg-card);
+  border: 1px solid var(--vc-border-mid);
+  border-radius: var(--vc-radius-xl);
+  box-shadow: var(--vc-shadow-xl);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Modal */
+#cookie-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--vc-z-modal);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+}
+#cookie-modal:not(.hidden) {
+  display: flex;
+}
+
+#cookie-modal .modal-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 28rem;
+  background-color: var(--vc-bg-card);
+  border: 1px solid var(--vc-border-mid);
+  border-radius: var(--vc-radius-xl);
+  box-shadow: var(--vc-shadow-xl);
+  padding: 1.5rem;
+}
+
+#cookie-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--vc-bg-overlay);
+  backdrop-filter: blur(4px);
+}
+
+/* Manage Cookies button (footer) */
+#manage-cookies-footer {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--vc-text-faint);
+  font-size: var(--vc-text-xs);
+  transition: color var(--vc-dur-fast) var(--vc-ease);
+}
+#manage-cookies-footer:hover        { color: var(--vc-text-gold-pale); }
+#manage-cookies-footer:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 3px; border-radius: 2px; }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §19 — FOOTER
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.footer-link {
+  font-size: var(--vc-text-sm);
+  color: var(--vc-text-muted);
+  text-decoration: none;
+  transition: color var(--vc-dur-fast) var(--vc-ease);
+}
+.footer-link:hover        { color: var(--vc-text-gold-pale); }
+.footer-link:focus-visible { outline: 2px solid var(--vc-accent); outline-offset: 3px; border-radius: 2px; }
+
+.footer-social-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--vc-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vc-text-muted);
+  text-decoration: none;
+  transition:
+    border-color     var(--vc-dur-base) var(--vc-ease),
+    color            var(--vc-dur-base) var(--vc-ease),
+    background-color var(--vc-dur-base) var(--vc-ease);
+}
+.footer-social-icon:hover {
+  border-color: var(--vc-accent-border);
+  color: var(--vc-text-gold-pale);
+  background-color: var(--vc-accent-bg);
+}
+.footer-social-icon:focus-visible {
+  outline: 2px solid var(--vc-accent);
+  outline-offset: 3px;
+}
+.footer-social-icon--wa:hover {
+  border-color: rgba(37, 211, 102, 0.40);
+  color: var(--vc-whatsapp);
+  background-color: rgba(37, 211, 102, 0.08);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §20 — RESPONSIVE OVERRIDES (mobile-first)
+   Base = mobile. Each breakpoint adds or overrides.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── sm: 640px ── */
+@media (min-width: 640px) {
+  :root {
+    --vc-header-h: 5rem;
+  }
+
+  .btn {
+    font-size: var(--vc-text-base);
+  }
+
+  /* Trust strip: switch from scroll to centred wrap */
+  .trust-strip .inner-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  /* Cookie modal — centre on wider screens */
+  #cookie-modal {
+    align-items: center;
+  }
+}
+
+/* ── md: 768px ── */
+@media (min-width: 768px) {
+  .heading-hero {
+    font-size: clamp(2.5rem, 5.5vw, 3.75rem);
+  }
+
+  /* Stacked steps → horizontal row */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* ── lg: 1024px ── */
+@media (min-width: 1024px) {
+  :root {
+    --vc-header-h: var(--vc-header-h-lg);
+  }
+
+  /* Hero: left-aligned text, right side for image */
+  .hero-content {
+    max-width: 50%;
+    padding-top: 9rem;
+    padding-bottom: 7rem;
+  }
+
+  /* FAQ: sticky left column */
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .faq-sticky-col {
+    position: sticky;
+    top: calc(var(--vc-header-h) + 2rem);
+  }
+
+  /* Service grid: 4 columns */
+  .services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Fleet grid: 2 columns */
+  .fleet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Chauffeur: image left, copy right */
+  .chauffeur-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+}
+
+/* ── xl: 1280px ── */
+@media (min-width: 1280px) {
+  .hero-content {
+    max-width: 42rem;
+  }
+
+  /* Booking section: widget left, form right */
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §21 — PRINT STYLESHEET
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Remove everything that doesn't print well */
+  #site-header,
+  #cookie-banner,
+  #cookie-modal,
+  .btn-wa,
+  .mobile-nav-drawer,
+  .hero-bg-img,
+  .hero-overlay-lr,
+  .hero-fade-bottom,
+  .animate-bounce-y,
+  #scroll-indicator {
+    display: none !important;
+  }
+
+  /* Reset backgrounds — ink-saving */
+  body,
+  section,
+  article,
+  .service-card,
+  .fleet-card,
+  .review-card,
+  .booking-form-card,
+  .quote-widget {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border-color: #cccccc !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure links print their href */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #555555;
+  }
+  /* But not nav or icon links */
+  header a::after,
+  footer a::after,
+  .icon-btn a::after {
+    content: none;
+  }
+
+  /* Typography in print */
+  h1, h2, h3 {
+    color: #111111 !important;
+    font-family: Georgia, serif !important;
+  }
+
+  p, li, td {
+    color: #333333 !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Page breaks */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Contact details are the most important thing to print */
+  footer address {
+    font-size: 12pt !important;
+    color: #111111 !important;
+    font-style: normal !important;
+  }
+
+  /* Page margin */
+  @page {
+    margin: 1.5cm 2cm;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §22 — PREFERS-REDUCED-MOTION
+   Respect users who have motion sensitivity.
+   These rules run on top of everything else.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Kill all transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Kill specific animations */
+  .animate-fade-up,
+  .animate-fade-up-d1,
+  .animate-fade-up-d2,
+  .animate-fade-up-d3,
+  .animate-bounce-y {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Keep FAQ accordion usable — just no animation */
+  .faq-body {
+    transition: none !important;
+  }
+  .faq-body.open {
+    grid-template-rows: 1fr !important;
+  }
+
+  /* No image scale on hover */
+  .fleet-img-wrap img,
+  .chauffeur-photo-frame img {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* Cookie banner appears immediately */
+  #cookie-banner {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Card hover lift */
+  .service-card:hover,
+  .review-card:hover {
+    transform: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   §23 — PREFERS-CONTRAST: MORE
+   Extra accessibility for high-contrast mode users.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-contrast: more) {
+  :root {
+    /* Increase text contrast */
+    --vc-text-body:   rgba(255, 255, 255, 0.92);
+    --vc-text-muted:  rgba(255, 255, 255, 0.72);
+    --vc-text-faint:  rgba(255, 255, 255, 0.50);
+
+    /* Stronger borders */
+    --vc-border:      rgba(255, 255, 255, 0.20);
+    --vc-border-mid:  rgba(255, 255, 255, 0.35);
+
+    /* Brighter accent */
+    --vc-accent:      #e8cf78;   /* gold-300 — higher contrast on dark bg */
+    --vc-accent-pale: #f0dfa0;
+    --vc-text-gold:   #e8cf78;
+    --vc-text-gold-pale: #f0dfa0;
+  }
+
+  /* Stronger focus ring */
+  :focus-visible {
+    outline-width: 3px;
+    outline-offset: 4px;
+  }
+
+  .btn-primary {
+    font-weight: 700;
+  }
+
+  /* Ensure form inputs are clearly bordered */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    border-color: rgba(255, 255, 255, 0.30);
+  }
+}

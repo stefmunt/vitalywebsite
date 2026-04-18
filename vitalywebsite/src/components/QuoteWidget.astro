@@ -1,0 +1,271 @@
+---
+/**
+ * QuoteWidget — inline booking/quote widget used in Hero and CTABand.
+ *
+ * Two modes:
+ *   1. Popular Routes — dropdown of pre-priced flat-rate routes → shows instant price
+ *   2. Custom Quote   — pickup + drop-off addresses → opens WhatsApp with prefilled message
+ *                       (upgrade to Google Maps Distance Matrix API for live pricing;
+ *                        add GOOGLE_MAPS_API_KEY env var and update the JS below)
+ *
+ * Props:
+ *   id     — unique suffix so two instances on same page don't clash (default: "main")
+ *   dark   — if true, uses slightly lighter card background (for use on dark hero)
+ */
+
+interface Props {
+  id?: string;
+  dark?: boolean;
+}
+
+const { id = 'main', dark = false } = Astro.props;
+
+/* PLACEHOLDER: Replace with real WhatsApp number before launch */
+const waNumber = '353XXXXXXXXX';
+
+const cardBg = dark
+  ? 'bg-charcoal-800/90 backdrop-blur-sm'
+  : 'bg-charcoal-800';
+
+const routes = [
+  { label: 'Dublin Airport → City Centre',   price: 75 },
+  { label: 'Dublin Airport → IFSC',          price: 75 },
+  { label: 'Dublin Airport → Ballsbridge',   price: 80 },
+  { label: 'Dublin Airport → Sandyford',     price: 90 },
+  { label: 'Dublin Airport → Citywest',      price: 85 },
+  { label: 'Dublin Airport → Leopardstown',  price: 90 },
+  { label: 'Dublin Airport → Malahide',      price: 70 },
+  { label: 'City Centre → Dublin Airport',   price: 75 },
+  { label: 'IFSC → Dublin Airport',          price: 75 },
+  { label: 'Sandyford → Dublin Airport',     price: 90 },
+];
+---
+
+<div
+  id={`quote-widget-${id}`}
+  class={`${cardBg} border border-white/10 rounded-xl p-6 w-full`}
+  data-wa-number={waNumber}
+>
+  <!-- Tab bar -->
+  <div role="tablist" aria-label="Quote type" class="flex gap-1 mb-5 bg-charcoal-900/60 p-1 rounded-lg">
+    <button
+      role="tab"
+      id={`tab-popular-${id}`}
+      aria-selected="true"
+      aria-controls={`panel-popular-${id}`}
+      class="quote-tab flex-1 py-2 px-3 rounded-md text-sm font-medium tracking-wide transition-colors duration-150
+             bg-gold-500 text-charcoal-900"
+      data-tab="popular"
+      data-widget={id}
+    >
+      Popular Routes
+    </button>
+    <button
+      role="tab"
+      id={`tab-custom-${id}`}
+      aria-selected="false"
+      aria-controls={`panel-custom-${id}`}
+      class="quote-tab flex-1 py-2 px-3 rounded-md text-sm font-medium tracking-wide transition-colors duration-150
+             text-white/60 hover:text-white"
+      data-tab="custom"
+      data-widget={id}
+    >
+      Custom Route
+    </button>
+  </div>
+
+  <!-- Popular Routes panel -->
+  <div
+    id={`panel-popular-${id}`}
+    role="tabpanel"
+    aria-labelledby={`tab-popular-${id}`}
+    data-panel="popular"
+    data-widget={id}
+  >
+    <div class="space-y-3">
+      <div>
+        <label for={`route-select-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+          Select route
+        </label>
+        <select
+          id={`route-select-${id}`}
+          name="route"
+          class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                 text-white text-sm outline-none transition-colors appearance-none cursor-pointer"
+          data-route-select
+          data-widget={id}
+          aria-label="Select your route"
+        >
+          <option value="">Choose your route…</option>
+          {routes.map(r => (
+            <option value={r.price} data-label={r.label}>{r.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for={`popular-date-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+            Date
+          </label>
+          <input
+            type="date"
+            id={`popular-date-${id}`}
+            name="date"
+            class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                   text-white text-sm outline-none transition-colors"
+            data-popular-date
+            data-widget={id}
+          />
+        </div>
+        <div>
+          <label for={`popular-time-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+            Time
+          </label>
+          <input
+            type="time"
+            id={`popular-time-${id}`}
+            name="time"
+            class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                   text-white text-sm outline-none transition-colors"
+            data-popular-time
+            data-widget={id}
+          />
+        </div>
+      </div>
+
+      <!-- Price result (hidden until route selected) -->
+      <div
+        id={`price-result-${id}`}
+        class="hidden border border-gold-500/30 bg-gold-500/5 rounded-lg px-4 py-3 flex items-center justify-between"
+        aria-live="polite"
+        data-price-result
+        data-widget={id}
+      >
+        <div>
+          <span class="text-xs text-white/50 uppercase tracking-widest block mb-0.5">Fixed rate, incl. VAT</span>
+          <span class="font-serif text-2xl font-semibold text-gold-400" data-price-amount>€75</span>
+        </div>
+        <a
+          href="#booking"
+          class="px-4 py-2 bg-gold-500 hover:bg-gold-600 text-charcoal-900 text-sm font-semibold
+                 rounded-lg transition-colors"
+          data-book-route
+          data-widget={id}
+          aria-label="Book this journey — goes to booking form"
+        >
+          Book this journey →
+        </a>
+      </div>
+
+      <button
+        type="button"
+        id={`popular-get-price-${id}`}
+        class="w-full py-3 bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-semibold text-sm
+               tracking-wide rounded-lg transition-colors"
+        data-get-price
+        data-widget={id}
+      >
+        Get Price
+      </button>
+    </div>
+  </div>
+
+  <!-- Custom Route panel -->
+  <div
+    id={`panel-custom-${id}`}
+    role="tabpanel"
+    aria-labelledby={`tab-custom-${id}`}
+    data-panel="custom"
+    data-widget={id}
+    hidden
+  >
+    <div class="space-y-3">
+      <div>
+        <label for={`pickup-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+          Pickup location
+        </label>
+        <input
+          type="text"
+          id={`pickup-${id}`}
+          name="pickup"
+          placeholder="e.g. Dublin Airport, Terminal 1"
+          class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                 text-white placeholder-white/25 text-sm outline-none transition-colors"
+          autocomplete="off"
+          data-custom-pickup
+          data-widget={id}
+        />
+      </div>
+
+      <div>
+        <label for={`dropoff-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+          Drop-off location
+        </label>
+        <input
+          type="text"
+          id={`dropoff-${id}`}
+          name="dropoff"
+          placeholder="e.g. The Shelbourne Hotel, St Stephen's Green"
+          class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                 text-white placeholder-white/25 text-sm outline-none transition-colors"
+          autocomplete="off"
+          data-custom-dropoff
+          data-widget={id}
+        />
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for={`custom-date-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+            Date
+          </label>
+          <input
+            type="date"
+            id={`custom-date-${id}`}
+            name="date"
+            class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                   text-white text-sm outline-none transition-colors"
+            data-custom-date
+            data-widget={id}
+          />
+        </div>
+        <div>
+          <label for={`custom-time-${id}`} class="block text-xs text-white/50 uppercase tracking-widest mb-1.5">
+            Time
+          </label>
+          <input
+            type="time"
+            id={`custom-time-${id}`}
+            name="time"
+            class="w-full bg-charcoal-700 border border-white/10 focus:border-gold-500 rounded-lg px-4 py-3
+                   text-white text-sm outline-none transition-colors"
+            data-custom-time
+            data-widget={id}
+          />
+        </div>
+      </div>
+
+      <!-- WhatsApp CTA for custom routes -->
+      <a
+        href="#"
+        id={`wa-custom-${id}`}
+        class="flex items-center justify-center gap-2.5 w-full py-3 bg-[#25D366] hover:bg-[#1da851]
+               text-white font-semibold text-sm tracking-wide rounded-lg transition-colors"
+        data-wa-custom
+        data-widget={id}
+        aria-label="Get a custom quote via WhatsApp — opens WhatsApp"
+        onclick="if(this.href==='#'){event.preventDefault();}"
+      >
+        <!-- WhatsApp icon -->
+        <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        Get a Quote via WhatsApp
+      </a>
+      <p class="text-xs text-white/35 text-center">Reply within 1 hour · Price confirmed before you book</p>
+    </div>
+  </div>
+</div>
+
+<!-- JS handled by /app.js §5 (initQuoteWidgets) -->

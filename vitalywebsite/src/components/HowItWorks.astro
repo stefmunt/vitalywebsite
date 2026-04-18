@@ -1,0 +1,104 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Book online or WhatsApp',
+    body: 'Use the quote widget, fill in the booking form, or send us a WhatsApp message with your journey details. We confirm availability instantly during operating hours (5:00 AM–midnight).',
+    promise: 'Confirmation within 10 minutes',
+    icon: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+    </svg>`,
+  },
+  {
+    number: '02',
+    title: 'Your driver tracks your flight',
+    body: 'For airport pickups, we monitor your flight in real time. If it lands 20 minutes early or two hours late, we adjust your pickup automatically. You do nothing.',
+    promise: 'Up to 60 minutes free wait',
+    icon: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+    </svg>`,
+  },
+  {
+    number: '03',
+    title: 'Meet your driver — 10 minutes early, every time',
+    body: 'Your chauffeur arrives at the agreed point 10 minutes before your scheduled time, in uniform, with a name board at arrivals or a discreet knock at your door. Luggage handled, door held.',
+    promise: '10 minutes early, every time',
+    icon: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>`,
+  },
+];
+---
+
+<section
+  id="how-it-works"
+  class="py-20 sm:py-24 px-4 bg-charcoal-900"
+  aria-labelledby="hiw-heading"
+>
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Section header -->
+    <div class="max-w-xl mb-14">
+      <span class="gold-rule" aria-hidden="true"></span>
+      <p class="text-gold-400 text-xs tracking-[0.35em] uppercase mb-3">How it works</p>
+      <h2 id="hiw-heading" class="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+        Three steps from enquiry to arrival
+      </h2>
+    </div>
+
+    <!-- Steps grid -->
+    <ol
+      class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12"
+      role="list"
+    >
+      {steps.map((step, i) => (
+        <li class="relative flex flex-col gap-5">
+          <!-- Connector line (desktop only, not on last) -->
+          {i < steps.length - 1 && (
+            <div
+              class="hidden md:block absolute top-9 left-[calc(100%+1rem)] right-0
+                     h-px bg-gradient-to-r from-gold-500/40 to-transparent w-[calc(100%+2rem-3.5rem)]
+                     pointer-events-none"
+              aria-hidden="true"
+              style={`left: calc(100% + ${i === 0 ? '2rem' : '2rem'})`}
+            ></div>
+          )}
+
+          <!-- Step number + icon -->
+          <div class="flex items-center gap-4">
+            <div
+              class="w-14 h-14 rounded-full border border-gold-500/30 bg-gold-500/5
+                     flex items-center justify-center text-gold-400 shrink-0"
+            >
+              <span set:html={step.icon} />
+            </div>
+            <span class="font-serif text-5xl font-bold text-white/8 leading-none select-none" aria-hidden="true">
+              {step.number}
+            </span>
+          </div>
+
+          <!-- Content -->
+          <div>
+            <h3 class="font-serif text-xl font-semibold mb-2 leading-snug">{step.title}</h3>
+            <p class="text-white/60 text-sm leading-relaxed mb-4">{step.body}</p>
+            <!-- Time-bound promise badge -->
+            <span
+              class="inline-flex items-center gap-1.5 text-xs font-medium text-gold-400
+                     bg-gold-500/8 border border-gold-500/20 rounded-full px-3 py-1"
+            >
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 13l4 4L19 7"/>
+              </svg>
+              {step.promise}
+            </span>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+  </div>
+</section>

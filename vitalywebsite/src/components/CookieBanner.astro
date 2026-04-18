@@ -1,0 +1,192 @@
+---
+/*
+  GDPR-compliant cookie consent banner.
+
+  Behaviour:
+  - Appears as a slide-up banner on first visit (not seen before in localStorage)
+  - Three choices: Accept All, Reject Non-Essential, Manage Preferences
+  - "Manage Preferences" opens a modal with granular toggles:
+      • Strictly Necessary (always on, cannot be disabled)
+      • Analytics (GA4)
+      • Marketing (future use)
+  - Stores choice in localStorage under 'cookie_consent'
+  - Sends gtag('consent', 'update') call to activate GA4 when analytics accepted
+  - Does NOT load GA4 script until consent is granted
+
+  PLACEHOLDER:
+  - Replace the GA4 script src URL with the real Measurement ID once confirmed.
+    Current placeholder: G-XXXXXXXXXX (set in BaseLayout.astro)
+  - When deploying, test that GA4 does NOT fire before consent is given.
+*/
+---
+
+<!-- Cookie consent banner -->
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 z-[200] px-4 py-4 sm:px-6"
+  role="dialog"
+  aria-label="Cookie consent"
+  aria-modal="false"
+  hidden
+>
+  <div class="max-w-5xl mx-auto bg-charcoal-800 border border-white/10 rounded-xl
+              shadow-2xl shadow-black/60 p-5 sm:p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+      <!-- Text -->
+      <div class="flex-1 min-w-0">
+        <p class="text-sm text-white/80 leading-relaxed">
+          We use cookies to improve your experience and measure site performance.
+          Analytics cookies are only activated with your consent.
+          <a href="/cookies" class="text-gold-400 underline underline-offset-2 hover:text-gold-300 ml-1">
+            Cookie policy →
+          </a>
+        </p>
+      </div>
+      <!-- Buttons -->
+      <div class="flex flex-wrap items-center gap-3 shrink-0">
+        <button
+          id="cookie-manage"
+          class="text-sm text-white/55 hover:text-white underline underline-offset-2 transition-colors"
+          aria-haspopup="dialog"
+          aria-controls="cookie-modal"
+        >
+          Manage preferences
+        </button>
+        <button
+          id="cookie-reject"
+          class="px-4 py-2 text-sm border border-white/15 hover:border-white/30
+                 rounded-lg text-white/70 hover:text-white transition-colors"
+        >
+          Reject non-essential
+        </button>
+        <button
+          id="cookie-accept"
+          class="px-4 py-2 text-sm bg-gold-500 hover:bg-gold-600 text-charcoal-900
+                 font-semibold rounded-lg transition-colors"
+        >
+          Accept all
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Preferences modal -->
+<div
+  id="cookie-modal"
+  class="fixed inset-0 z-[300] flex items-end sm:items-center justify-center p-4 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cookie-modal-heading"
+>
+  <!-- Backdrop -->
+  <div
+    id="cookie-modal-backdrop"
+    class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Modal card -->
+  <div class="relative w-full max-w-md bg-charcoal-800 border border-white/10 rounded-xl
+              shadow-2xl shadow-black/70 p-6 z-10">
+    <h2 id="cookie-modal-heading" class="font-serif text-xl font-semibold mb-1">
+      Cookie preferences
+    </h2>
+    <p class="text-sm text-white/50 mb-6">
+      Choose which cookies you allow. Strictly necessary cookies cannot be disabled.
+    </p>
+
+    <!-- Toggle rows -->
+    <div class="space-y-4 mb-6">
+
+      <!-- Strictly necessary — always on -->
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-sm font-medium">Strictly necessary</p>
+          <p class="text-xs text-white/45 mt-0.5 leading-relaxed">
+            Required for the site to function. Cannot be turned off.
+          </p>
+        </div>
+        <div class="shrink-0 mt-0.5">
+          <div
+            class="w-10 h-6 bg-gold-500/60 rounded-full flex items-center px-0.5 cursor-not-allowed"
+            aria-label="Strictly necessary cookies — always enabled"
+            role="switch"
+            aria-checked="true"
+            aria-disabled="true"
+          >
+            <div class="w-5 h-5 bg-white rounded-full translate-x-4 shadow-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics -->
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-sm font-medium">Analytics</p>
+          <p class="text-xs text-white/45 mt-0.5 leading-relaxed">
+            Google Analytics 4 — helps us understand how visitors use the site.
+            No personal data is sold.
+          </p>
+        </div>
+        <div class="shrink-0 mt-0.5">
+          <button
+            id="toggle-analytics"
+            class="w-10 h-6 rounded-full flex items-center px-0.5 transition-colors duration-200
+                   bg-white/15 focus-visible:ring-2 focus-visible:ring-gold-400"
+            role="switch"
+            aria-checked="false"
+            aria-label="Toggle analytics cookies"
+            data-pref="analytics"
+          >
+            <div class="w-5 h-5 bg-white/50 rounded-full shadow-sm transition-transform duration-200 translate-x-0 toggle-knob"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Marketing (future) -->
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-sm font-medium">Marketing</p>
+          <p class="text-xs text-white/45 mt-0.5 leading-relaxed">
+            Personalised ads and retargeting. Currently not in use.
+          </p>
+        </div>
+        <div class="shrink-0 mt-0.5">
+          <button
+            id="toggle-marketing"
+            class="w-10 h-6 rounded-full flex items-center px-0.5 transition-colors duration-200
+                   bg-white/15 focus-visible:ring-2 focus-visible:ring-gold-400"
+            role="switch"
+            aria-checked="false"
+            aria-label="Toggle marketing cookies"
+            data-pref="marketing"
+          >
+            <div class="w-5 h-5 bg-white/50 rounded-full shadow-sm transition-transform duration-200 translate-x-0 toggle-knob"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal actions -->
+    <div class="flex gap-3">
+      <button
+        id="cookie-modal-save"
+        class="flex-1 py-2.5 bg-gold-500 hover:bg-gold-600 text-charcoal-900
+               font-semibold text-sm rounded-lg transition-colors"
+      >
+        Save preferences
+      </button>
+      <button
+        id="cookie-modal-close"
+        class="px-4 py-2.5 border border-white/15 hover:border-white/30
+               text-sm rounded-lg transition-colors"
+        aria-label="Close cookie preferences"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- JS handled by /app.js §3 (initCookieConsent) -->

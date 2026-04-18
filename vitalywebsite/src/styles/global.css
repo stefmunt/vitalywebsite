@@ -1,13 +1,151 @@
 @import "tailwindcss" source(none);
 @source "../";
 
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
 @theme {
+  /* Charcoal scale */
+  --color-charcoal-950: #050505;
+  --color-charcoal-900: #0f0f0f;
+  --color-charcoal-800: #1a1a1a;
+  --color-charcoal-750: #1f1f1f;
+  --color-charcoal-700: #252525;
+  --color-charcoal-600: #333333;
+
+  /* Ivory scale — used for contrast on dark backgrounds */
+  --color-ivory-50:  #fdfbf7;
+  --color-ivory-100: #faf7f2;
+  --color-ivory-200: #f5f0e8;
+  --color-ivory-300: #ede3d0;
+
+  /* Gold scale */
+  --color-gold-200: #f0dfa0;
+  --color-gold-300: #e8cf78;
   --color-gold-400: #d4af5a;
   --color-gold-500: #c9a84c;
   --color-gold-600: #b8972f;
-  --color-charcoal-800: #1a1a1a;
-  --color-charcoal-900: #0f0f0f;
+  --color-gold-700: #9a7e20;
 
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  /* Typography */
+  --font-sans:  "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: theme(--color-charcoal-900);
+    color: #ffffff;
+    font-family: theme(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Visible focus ring — WCAG 2.1 AA compliant */
+  :focus-visible {
+    outline: 2px solid theme(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* ─── Skip to main content (screen-reader + keyboard) ─────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1.25rem;
+  background: theme(--color-gold-500);
+  color: theme(--color-charcoal-900);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ─── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bounce-scroll {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+.animate-fade-up          { animation: fade-up 0.65s ease both; }
+.animate-fade-up-d1       { animation: fade-up 0.65s 0.12s ease both; }
+.animate-fade-up-d2       { animation: fade-up 0.65s 0.24s ease both; }
+.animate-fade-up-d3       { animation: fade-up 0.65s 0.36s ease both; }
+
+/* ─── FAQ accordion ──────────────────────────────────────────────────────── */
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+.faq-body.open {
+  grid-template-rows: 1fr;
+}
+.faq-body > div {
+  overflow: hidden;
+}
+
+/* ─── Quote widget tab panels ────────────────────────────────────────────── */
+[data-panel][hidden] {
+  display: none;
+}
+
+/* ─── Cookie banner slide-up ─────────────────────────────────────────────── */
+#cookie-banner {
+  transform: translateY(110%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#cookie-banner.visible {
+  transform: translateY(0);
+}
+
+/* ─── Horizontal rule in sections ────────────────────────────────────────── */
+.gold-rule {
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  background: theme(--color-gold-500);
+  margin-bottom: 1.25rem;
+}
+
+/* ─── Star rating display ────────────────────────────────────────────────── */
+.star-rating {
+  color: theme(--color-gold-400);
+  letter-spacing: 0.05em;
 }

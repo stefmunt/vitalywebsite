@@ -1,17 +1,104 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
+import TrustStrip from '@components/TrustStrip.astro';
+import HowItWorks from '@components/HowItWorks.astro';
 import Services from '@components/Services.astro';
-import WhyUs from '@components/WhyUs.astro';
-import Contact from '@components/Contact.astro';
+import Fleet from '@components/Fleet.astro';
+import MeetChauffeur from '@components/MeetChauffeur.astro';
+import Reviews from '@components/Reviews.astro';
+import FAQ from '@components/FAQ.astro';
+import CTABand from '@components/CTABand.astro';
+
+const description =
+  'Dublin chauffeur service — fixed-rate airport transfers from €75 incl. VAT. 2023 Mercedes S-Class, Garda-vetted drivers, 4,000+ transfers. Book online or WhatsApp for instant confirmation.';
 ---
 
 <BaseLayout
-  title="Premium Chauffeur & Executive Private Driver"
-  description="Vitaly Executive Chauffeur — luxury VIP transport, corporate travel, and reliable airport transfers in Dublin, Ireland. Professional chauffeurs available 24/7."
+  title="Dublin Chauffeur Service | Airport Transfers from €75"
+  description={description}
 >
+  <!-- FAQPage schema — lives on this page where the FAQ section renders -->
+  <script slot="head" type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do you track flights for Dublin Airport transfers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We monitor every flight in real time. If your flight lands early or is delayed, we adjust your pickup time automatically — no extra charge and no calls needed from you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my flight is delayed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We wait up to 60 minutes from landing at no extra cost. After 60 minutes, additional waiting time is charged at €15 per 30-minute block."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I pay for a chauffeur transfer in Dublin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We accept all major credit and debit cards, cash, and bank transfer. Approved corporate accounts receive itemised monthly invoices with full VAT breakdown."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is VAT included in the price?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All prices shown include Irish VAT at the applicable rate. Every receipt shows a full VAT breakdown so you can reclaim the tax on business journeys."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book a transfer for a client or guest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Enter your own details as the booker, then add your guest's name and mobile number in the notes field. We'll send them the driver's details directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the cancellation policy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cancellations made more than 24 hours before the scheduled pickup are free of charge. Cancellations within 24 hours are charged at 50% of the agreed fare."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer corporate accounts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Corporate accounts receive monthly invoicing, priority booking, and volume discounts. Email info@vitalychauffeur.com with your company name to apply — we typically respond within one business day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What areas outside Dublin do you cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We cover all of Ireland. Frequently requested long-distance routes include Dublin–Cork (approx. €350), Dublin–Galway (approx. €280), Dublin–Belfast (approx. €250), and Dublin–Limerick (approx. €220). All prices incl. VAT."
+          }
+        }
+      ]
+    }
+  </script>
+
   <Hero />
+  <TrustStrip />
+  <HowItWorks />
   <Services />
-  <WhyUs />
-  <Contact />
+  <Fleet />
+  <MeetChauffeur />
+  <Reviews />
+  <FAQ />
+  <CTABand />
 </BaseLayout>

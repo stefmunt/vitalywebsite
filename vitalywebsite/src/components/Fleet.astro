@@ -1,0 +1,217 @@
+---
+/*
+  Fleet section — vehicle comparison cards, not a gallery.
+  PLACEHOLDERS (marked inline):
+  - Real vehicle photos: commission exterior + interior shots for each car.
+  - Hourly rates: confirm with Vitaly.
+  - Add V-Class or other vehicles as fleet grows.
+*/
+
+const vehicles = [
+  {
+    id:          's-class',
+    name:        'Mercedes S-Class',
+    year:        '2023 W223',
+    tagline:     'The benchmark for executive travel',
+    passengers:  3,
+    luggage:     3,
+    rateHourly:  '€[FILL IN]/hr', /* PLACEHOLDER: confirm S-Class hourly rate */
+    rateFlat:    'From €75 flat (airport transfer)',
+    features:    [
+      "Nappa leather rear captain\u2019s seats",
+      'On-board 4G Wi-Fi',
+      'Wireless phone charging (2 pads)',
+      'Climate control, rear individual zones',
+      'Chilled water and still water provided',
+      'Privacy glass',
+    ],
+    images: {
+      exterior: '/images/fleet-s-class-exterior.jpg', /* PLACEHOLDER: Commission exterior shot — car parked at night at Shelbourne Hotel or similar. Warm streetlight, wet road reflection. */
+      interior: '/images/fleet-s-class-interior.jpg', /* PLACEHOLDER: Commission interior shot — rear seats looking forward, ambient lighting on. Show wood-and-leather dashboard. */
+    },
+    highlight: true,
+  },
+  {
+    id:          'v-class',
+    name:        'Mercedes V-Class',
+    year:        '[FILL IN: year] W447 Executive',
+    tagline:     'Group transfers and family travel',
+    passengers:  6,
+    luggage:     6,
+    rateHourly:  '€[FILL IN]/hr', /* PLACEHOLDER: confirm V-Class hourly rate */
+    rateFlat:    'From €[FILL IN] flat (airport transfer)', /* PLACEHOLDER: confirm V-Class airport flat rate */
+    features:    [
+      'Captain-seat rear configuration',
+      'Individual folding tables',
+      'On-board 4G Wi-Fi',
+      'Wireless phone charging',
+      'Climate control',
+      'Large luggage capacity',
+    ],
+    images: {
+      exterior: '/images/fleet-v-class-exterior.jpg', /* PLACEHOLDER: Commission exterior shot — V-Class at Dublin Airport or similar landmark. Same aesthetic as S-Class shot. */
+      interior: '/images/fleet-v-class-interior.jpg', /* PLACEHOLDER: Commission interior shot — rear of V-Class showing captain seats and individual tables. */
+    },
+    highlight: false,
+  },
+];
+---
+
+<section
+  id="fleet"
+  class="py-20 sm:py-24 px-4 bg-charcoal-900"
+  aria-labelledby="fleet-heading"
+>
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Section header -->
+    <div class="max-w-xl mb-14">
+      <span class="gold-rule" aria-hidden="true"></span>
+      <p class="text-gold-400 text-xs tracking-[0.35em] uppercase mb-3">The fleet</p>
+      <h2 id="fleet-heading" class="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+        Two vehicles. Both maintained to manufacturer standard.
+      </h2>
+      <p class="mt-4 text-white/55 text-base leading-relaxed max-w-lg">
+        Every car is less than two years old, fully valeted before each booking,
+        and serviced on the manufacturer's schedule — not when it's convenient.
+      </p>
+    </div>
+
+    <!-- Vehicle cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {vehicles.map(({ id, name, year, tagline, passengers, luggage, rateHourly, rateFlat, features, images, highlight }) => (
+        <article
+          id={`vehicle-${id}`}
+          class:list={[
+            'rounded-xl border overflow-hidden',
+            highlight
+              ? 'border-gold-500/40 ring-1 ring-gold-500/15'
+              : 'border-white/8',
+          ]}
+        >
+          <!-- Image pair: exterior + interior (stacked mobile, side-by-side on card) -->
+          <div class="grid grid-cols-2 h-52 sm:h-60">
+            <!-- Exterior -->
+            <div class="relative overflow-hidden bg-charcoal-800">
+              <!--
+                PLACEHOLDER: Replace with commissioned exterior photo.
+                {images.exterior.replace('/images/', '') explains which shot is needed.}
+              -->
+              <img
+                src={images.exterior}
+                alt={`${year} ${name} exterior`}
+                width="600"
+                height="400"
+                class="w-full h-full object-cover object-center transition-transform duration-500
+                       group-hover:scale-105"
+                loading="lazy"
+              />
+              <span class="absolute bottom-2 left-2 text-[10px] text-white/50 bg-black/50
+                           rounded px-1.5 py-0.5 backdrop-blur-sm">
+                Exterior
+              </span>
+            </div>
+            <!-- Interior -->
+            <div class="relative overflow-hidden bg-charcoal-800 border-l border-white/5">
+              <img
+                src={images.interior}
+                alt={`${year} ${name} interior — rear seats`}
+                width="600"
+                height="400"
+                class="w-full h-full object-cover object-center"
+                loading="lazy"
+              />
+              <span class="absolute bottom-2 left-2 text-[10px] text-white/50 bg-black/50
+                           rounded px-1.5 py-0.5 backdrop-blur-sm">
+                Interior
+              </span>
+            </div>
+          </div>
+
+          <!-- Card body -->
+          <div class="p-7 bg-charcoal-800">
+
+            <!-- Name + year -->
+            <div class="flex items-start justify-between gap-4 mb-1">
+              <div>
+                <h3 class="font-serif text-2xl font-semibold">{name}</h3>
+                <p class="text-gold-400/70 text-xs tracking-wide mt-0.5">{year}</p>
+              </div>
+              {highlight && (
+                <span class="text-xs font-medium bg-gold-500/10 border border-gold-500/30
+                             text-gold-400 rounded-full px-3 py-1 shrink-0">
+                  Flagship
+                </span>
+              )}
+            </div>
+            <p class="text-white/50 text-sm italic mb-5">{tagline}</p>
+
+            <!-- Spec pills -->
+            <div class="flex gap-3 mb-6" aria-label="Vehicle specifications">
+              <span class="flex items-center gap-1.5 text-xs text-white/70 bg-charcoal-700
+                           border border-white/8 rounded-full px-3 py-1.5">
+                <svg class="w-3.5 h-3.5 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                {passengers} passengers
+              </span>
+              <span class="flex items-center gap-1.5 text-xs text-white/70 bg-charcoal-700
+                           border border-white/8 rounded-full px-3 py-1.5">
+                <svg class="w-3.5 h-3.5 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+                {luggage} bags
+              </span>
+            </div>
+
+            <!-- Feature list -->
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 mb-6">
+              {features.map(f => (
+                <li class="flex items-start gap-2 text-sm text-white/55">
+                  <svg class="w-3.5 h-3.5 text-gold-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <!-- Rates + CTA -->
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-5
+                        border-t border-white/8">
+              <div>
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-1">Rates</p>
+                <p class="text-white text-sm font-medium">{rateHourly}</p>
+                <p class="text-white/55 text-sm">{rateFlat}</p>
+              </div>
+              <a
+                href={`/#booking?vehicle=${id}`}
+                class:list={[
+                  'inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-lg text-sm font-semibold tracking-wide transition-colors duration-200 shrink-0',
+                  highlight
+                    ? 'bg-gold-500 hover:bg-gold-600 text-charcoal-900'
+                    : 'border border-white/15 hover:border-gold-500/40 hover:text-gold-400',
+                ]}
+                aria-label={`Book the ${name} — goes to booking form`}
+              >
+                Book this car →
+              </a>
+            </div>
+
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Additional note -->
+    <p class="mt-8 text-white/30 text-xs text-center">
+      Need a larger vehicle or a specific make?
+      <a href="/#booking" class="underline underline-offset-2 hover:text-gold-400 transition-colors">
+        Ask us →
+      </a>
+    </p>
+
+  </div>
+</section>
