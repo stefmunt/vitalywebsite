@@ -1257,10 +1257,12 @@
   position: fixed;
   inset: 0;
   z-index: var(--vc-z-modal);
-  display: flex;
   align-items: flex-end;
   justify-content: center;
   padding: 1rem;
+}
+#cookie-modal.hidden {
+  display: none;
 }
 #cookie-modal:not(.hidden) {
   display: flex;
